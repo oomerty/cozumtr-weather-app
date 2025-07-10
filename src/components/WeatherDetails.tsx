@@ -1,17 +1,18 @@
 import { useEffect } from "react";
 
-import { useTheme } from "../contexts/useTheme";
+import { useThemeMode } from "../contexts/useThemeMode";
+import type WeatherType from "../types/WeatherType";
 
 import { Grid, Paper, Typography } from "@mui/material";
 
 import WeatherDetailCard from "./WeatherDetailCard";
 
 interface WeatherDetailsProps {
-  details: object;
+  details: WeatherType;
 }
 
 function WeatherDetails({ details }: WeatherDetailsProps) {
-  const { setMode } = useTheme();
+  const { setMode } = useThemeMode();
 
   const timeEpoch = Date.parse(details?.location.localtime);
   const time = new Date(timeEpoch);
@@ -21,18 +22,25 @@ function WeatherDetails({ details }: WeatherDetailsProps) {
 
   const forecastArr = details?.forecast.forecastday[0].hour;
   const forecastFromNow = forecastArr?.slice(time.getHours());
-  console.log(forecastFromNow);
+
+  if (forecastFromNow?.length < 5) {
+    const forecastArrTomorrow = details?.forecast.forecastday[1].hour;
+    Object.values(forecastArrTomorrow).forEach((element) => {
+      forecastFromNow.push(element);
+    });
+  }
 
   useEffect(() => {
-    setMode(details?.current.is_day ? "day" : "night");
     if (details?.current.is_day) {
+      setMode("day");
       document.body.style.background =
         "linear-gradient(180deg, #4c90d9 30%, #b0d2f8 90%)";
     } else {
+      setMode("night");
       document.body.style.background =
         "linear-gradient(180deg, #00060f 30%, #10357a 90%)";
     }
-  }, [details]);
+  }, [details, setMode]);
 
   return (
     <Paper
@@ -48,7 +56,7 @@ function WeatherDetails({ details }: WeatherDetailsProps) {
     >
       <Grid container spacing={2}>
         <WeatherDetailCard gridSize={12}>
-          <Grid columns={{ sm: 1, md: 5 }} container spacing={1}>
+          <Grid columns={{ sm: 12, md: 5 }} container spacing={1}>
             {forecastFromNow &&
               Object.values(forecastFromNow)
                 .slice(0, 5)
@@ -56,7 +64,7 @@ function WeatherDetails({ details }: WeatherDetailsProps) {
                   return (
                     <Grid
                       key={index}
-                      size={1}
+                      size={{ sm: 12, md: 1 }}
                       textAlign="center"
                       sx={{
                         display: "flex",
@@ -67,8 +75,13 @@ function WeatherDetails({ details }: WeatherDetailsProps) {
                       <Typography variant="subtitle2">
                         {index === 0 ? "Now" : el?.time.split(" ").at(1)}
                       </Typography>
-                      <Typography variant="h5">{el?.temp_c}°</Typography>
-                      <Typography variant="body1">
+                      <Typography variant="h5" sx={{ fontWeight: "600" }}>
+                        {el?.temp_c}°
+                      </Typography>
+                      <Typography
+                        variant="body1"
+                        sx={{ color: "text.secondary" }}
+                      >
                         {el?.condition.text}
                       </Typography>
                     </Grid>
@@ -109,11 +122,15 @@ function Wind({
 }) {
   return (
     <WeatherDetailCard title="Wind">
-      <Typography variant="h4">{windSpeed} km/h</Typography>
-      <Typography variant="body1">
+      <Typography variant="h4" sx={{ fontWeight: "500" }}>
+        {windSpeed} km/h
+      </Typography>
+      <Typography variant="body1" sx={{ color: "text.secondary" }}>
         Direction {windDeg}° {windDir}
       </Typography>
-      <Typography variant="body1">Wind gusts {windGust} km/h</Typography>
+      <Typography variant="body1" sx={{ color: "text.secondary" }}>
+        Wind gusts {windGust} km/h
+      </Typography>
     </WeatherDetailCard>
   );
 }
@@ -127,8 +144,10 @@ function FeelsLike({
 }) {
   return (
     <WeatherDetailCard title="Feels Like">
-      <Typography variant="h4">{feelsLikeTemp}°</Typography>
-      <Typography variant="body1">
+      <Typography variant="h4" sx={{ fontWeight: "500" }}>
+        {feelsLikeTemp}°
+      </Typography>
+      <Typography variant="body1" sx={{ color: "text.secondary" }}>
         It feels{" "}
         {currentTemp > feelsLikeTemp
           ? "cooler than"
@@ -150,8 +169,10 @@ function Humidity({
 }) {
   return (
     <WeatherDetailCard title="Humidity">
-      <Typography variant="h4">{humidity}%</Typography>
-      <Typography variant="body1">
+      <Typography variant="h4" sx={{ fontWeight: "500" }}>
+        {humidity}%
+      </Typography>
+      <Typography variant="body1" sx={{ color: "text.secondary" }}>
         The dew point is {dewpoint}° right now
       </Typography>
     </WeatherDetailCard>
@@ -161,8 +182,10 @@ function Humidity({
 function UV({ uv }: { uv: number }) {
   return (
     <WeatherDetailCard title="UV">
-      <Typography variant="h4">{uv}</Typography>
-      <Typography variant="body1">
+      <Typography variant="h4" sx={{ fontWeight: "500" }}>
+        {uv}
+      </Typography>
+      <Typography variant="body1" sx={{ color: "text.secondary" }}>
         {uv <= 2
           ? "No protection needed"
           : uv <= 7
@@ -176,8 +199,10 @@ function UV({ uv }: { uv: number }) {
 function Precipitation({ precipitation }: { precipitation: number }) {
   return (
     <WeatherDetailCard title="Precipitation">
-      <Typography variant="h4">{precipitation}mm</Typography>
-      <Typography variant="body1">
+      <Typography variant="h4" sx={{ fontWeight: "500" }}>
+        {precipitation}mm
+      </Typography>
+      <Typography variant="body1" sx={{ color: "text.secondary" }}>
         Rainfall {precipitation > 0 ? "expected" : "not expected"}
       </Typography>
     </WeatherDetailCard>
@@ -187,8 +212,10 @@ function Precipitation({ precipitation }: { precipitation: number }) {
 function Visibility({ visibility }: { visibility: number }) {
   return (
     <WeatherDetailCard title="Visibility">
-      <Typography variant="h4">{visibility} KM</Typography>
-      <Typography variant="body1">
+      <Typography variant="h4" sx={{ fontWeight: "500" }}>
+        {visibility} KM
+      </Typography>
+      <Typography variant="body1" sx={{ color: "text.secondary" }}>
         {visibility < 5 ? "Low visibility, be careful" : "Clear vision"}
       </Typography>
     </WeatherDetailCard>

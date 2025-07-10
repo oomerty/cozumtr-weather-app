@@ -4,13 +4,13 @@ import { swrGlobalConfig } from "./lib/swrConfig";
 import Container from "@mui/material/Container";
 
 import Weather from "./pages/Weather";
-import { ThemeProvider, useTheme } from "./contexts/useTheme";
-import { createTheme, CssBaseline } from "@mui/material";
+import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
+import { ThemeModeProvider, useThemeMode } from "./contexts/useThemeMode";
 
 function App() {
   return (
     <SWRConfig value={swrGlobalConfig}>
-      <ThemeProvider>
+      <ThemeModeProvider>
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<MainLayout />}>
@@ -18,20 +18,21 @@ function App() {
             </Route>
           </Routes>
         </BrowserRouter>
-      </ThemeProvider>
+      </ThemeModeProvider>
     </SWRConfig>
   );
 }
 
 function MainLayout() {
-  const { mode } = useTheme();
+  const { mode } = useThemeMode();
 
   const theme = createTheme({
+    // PALETTE
     palette: {
       mode: mode === "day" ? "light" : "dark",
-      ...(mode === "day"
-        ? { background: { default: "#e3f2fd" } }
-        : { background: { default: "#0d1117" } }),
+    },
+    typography: {
+      fontFamily: "`TikTok Sans`",
     },
   });
 

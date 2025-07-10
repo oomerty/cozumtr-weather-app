@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useCallback } from "react";
 
 import { useWeather } from "../hooks/useWeather";
 
@@ -6,19 +6,23 @@ import { Grid } from "@mui/material";
 
 import WeatherHero from "../components/WeatherHero";
 import WeatherDetails from "../components/WeatherDetails";
+import type WeatherType from "../types/WeatherType";
 
 function Weather() {
   const { fetchWeather, weather, loading, error } = useWeather();
 
-  const handleSearch = (city: string) => {
-    if (city.trim()) {
-      fetchWeather(city);
-    }
-  };
+  const handleSearch = useCallback(
+    (city: string) => {
+      if (city.trim()) {
+        fetchWeather(city);
+      }
+    },
+    [fetchWeather]
+  );
 
   useEffect(() => {
     handleSearch("Eskisehir");
-  }, []);
+  }, [handleSearch]);
 
   return (
     <Grid
@@ -34,10 +38,13 @@ function Weather() {
       <Grid size={{ sm: 12, md: 5 }} marginY={2}>
         {loading && <p>Yükleniyor...</p>}
         {error && <p>{error}</p>}
-        <WeatherHero details={weather} handleSearch={handleSearch} />
+        <WeatherHero
+          details={weather as WeatherType}
+          handleSearch={handleSearch}
+        />
       </Grid>
       <Grid size={{ sm: 12, md: 7 }} marginY={2}>
-        <WeatherDetails details={weather} />
+        <WeatherDetails details={weather as WeatherType} />
       </Grid>
     </Grid>
   );

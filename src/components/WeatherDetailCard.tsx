@@ -21,6 +21,7 @@ function WeatherDetailCard({
           flexDirection: "column",
           p: 4,
           gap: 0.5,
+          height: "100%",
         }}
       >
         <Box>

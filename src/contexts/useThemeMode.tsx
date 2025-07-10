@@ -3,14 +3,18 @@ import { createContext, useContext, useState } from "react";
 
 type ThemeMode = "day" | "night";
 
-interface ThemeContextType {
+interface ThemeModeContextType {
   mode: ThemeMode;
   setMode: (mode: ThemeMode) => void;
 }
 
-const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
+const ThemeContext = createContext<ThemeModeContextType | undefined>(undefined);
 
-export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
+export const ThemeModeProvider = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
   const [mode, setMode] = useState<ThemeMode>("day");
 
   return (
@@ -20,9 +24,9 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export const useTheme = () => {
+export const useThemeMode = () => {
   const context = useContext(ThemeContext);
   if (!context)
-    throw new Error("useThemeMode must be used within ThemeProvider");
+    throw new Error("useThemeMode must be used within ThemeModeProvider");
   return context;
 };

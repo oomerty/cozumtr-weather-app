@@ -27,7 +27,7 @@ async function weatherFetcher(_: string, { arg }: { arg: string }) {
       params: {
         key: API_KEY,
         q: arg,
-        day: 2,
+        days: 2,
       },
     });
     return res.data;
