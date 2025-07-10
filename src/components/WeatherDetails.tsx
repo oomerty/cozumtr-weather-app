@@ -49,8 +49,35 @@ function WeatherDetails({ details }: WeatherDetailsProps) {
         height: "100%",
         maxHeight: { sm: "100%", md: "100vh" },
         overflow: "auto",
-        p: 4,
+        p: { xs: 2, md: 4 },
         boxSizing: "border-box",
+        borderRadius: "32px",
+        // Glass
+        backgroundColor: "transparent",
+        backdropFilter: "blur(24px)",
+        fillOpacity: "50%",
+        border: "1px solid rgba(255, 255, 255, 0.2)",
+        boxShadow: "none",
+        backgroundImage:
+          "linear-gradient(to right bottom, rgba(255, 255, 255, 0.1), rgba(239, 239, 239, 0.1))",
+
+        "&::-webkit-scrollbar": {
+          width: "8px",
+          color: "red",
+          backgroundColor: "transparent",
+        },
+        "&::-webkit-scrollbar-thumb": {
+          backgroundColor: "rgba(255, 255, 255, 0.3)",
+          borderRadius: "32px",
+          "&:hover": {
+            backgroundColor: "rgba(255, 255, 255, 0.5)",
+          },
+        },
+        "&::-webkit-scrollbar-track": {
+          backgroundColor: "rgba(0, 0, 0, 0.1)",
+          borderRadius: "32px",
+          marginY: "32px",
+        },
       }}
       elevation={0}
     >

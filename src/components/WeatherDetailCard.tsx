@@ -19,9 +19,14 @@ function WeatherDetailCard({
         sx={{
           display: "flex",
           flexDirection: "column",
-          p: 4,
+          p: { xs: 2, md: 4 },
+          borderRadius: "16px",
           gap: 0.5,
           height: "100%",
+          backgroundColor: "transparent",
+          backdropFilter: "blur(10px)",
+          border: "1px solid rgba(255, 255, 255, 0.2)",
+          boxShadow: "none",
         }}
       >
         <Box>

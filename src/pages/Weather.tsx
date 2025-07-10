@@ -27,15 +27,16 @@ function Weather() {
   return (
     <Grid
       container
-      spacing={{ sm: 2, md: 4 }}
+      spacing={4}
       margin={0}
       direction="row"
       justifyContent="center"
-      width="100%"
+      width="auto"
       height={{ sm: "fit", md: "100vh" }}
       overflow="hidden"
+      paddingY={2}
     >
-      <Grid size={{ sm: 12, md: 5 }} marginY={2}>
+      <Grid size={{ sm: 12, md: 5 }}>
         {loading && <p>Yükleniyor...</p>}
         {error && <p>{error}</p>}
         <WeatherHero
@@ -43,7 +44,7 @@ function Weather() {
           handleSearch={handleSearch}
         />
       </Grid>
-      <Grid size={{ sm: 12, md: 7 }} marginY={2}>
+      <Grid size={{ sm: 12, md: 7 }} height="100%">
         <WeatherDetails details={weather as WeatherType} />
       </Grid>
     </Grid>

@@ -1,16 +1,8 @@
-import { useState, type ChangeEvent } from "react";
-
 import type WeatherType from "../types/WeatherType";
 
-import {
-  Box,
-  Button,
-  Chip,
-  FormControl,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Box, Chip, Typography } from "@mui/material";
 import { LocationOn } from "@mui/icons-material";
+import WeatherSearchBar from "./WeatherSearchBar";
 
 interface WeatherHeroType {
   details: WeatherType;
@@ -18,14 +10,8 @@ interface WeatherHeroType {
 }
 
 function WeatherHero({ details, handleSearch }: WeatherHeroType) {
-  const [search, setSearch] = useState("");
-
   const cityName = details?.location.name;
   const countryName = details?.location.country;
-
-  function handleSearchField(e: ChangeEvent<HTMLInputElement>) {
-    setSearch(e?.target.value);
-  }
 
   const condition = details?.current.condition.text;
   const currentTemp = details?.current.temp_c;
@@ -43,37 +29,7 @@ function WeatherHero({ details, handleSearch }: WeatherHeroType) {
         gap: 4,
       }}
     >
-      <FormControl sx={{ width: "100%", flexDirection: "row", gap: 1 }}>
-        <TextField
-          id="search"
-          label="Search"
-          variant="outlined"
-          size="small"
-          value={search}
-          onChange={handleSearchField}
-          sx={{ width: "100%" }}
-        />
-
-        <Button
-          variant="contained"
-          onClick={() => {
-            handleSearch(search);
-            setSearch("");
-          }}
-          sx={{
-            borderRadius: 6,
-            textTransform: "none",
-            fontWeight: "semibold",
-            padding: "0 24px",
-            boxShadow: "none",
-            ":hover": {
-              boxShadow: "none",
-            },
-          }}
-        >
-          Search
-        </Button>
-      </FormControl>
+      <WeatherSearchBar handleSearch={handleSearch} />
 
       <Box
         sx={{
@@ -108,6 +64,9 @@ function WeatherHero({ details, handleSearch }: WeatherHeroType) {
             label={condition}
             variant="outlined"
             sx={{
+              border: "1px solid red",
+              borderColor: "text.secondary",
+              color: "text.secondary",
               fontWeight: "500",
               width: "max-content",
               alignSelf: "center",

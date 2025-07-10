@@ -27,6 +27,12 @@ function MainLayout() {
   const { mode } = useThemeMode();
 
   const theme = createTheme({
+    components: {
+      // PAPER
+      MuiPaper: {
+        styleOverrides: {},
+      },
+    },
     // PALETTE
     palette: {
       mode: mode === "day" ? "light" : "dark",
