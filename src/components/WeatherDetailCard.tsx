@@ -19,8 +19,8 @@ function WeatherDetailCard({
         sx={{
           display: "flex",
           flexDirection: "column",
-          p: { xs: 2, md: 4 },
-          borderRadius: "16px",
+          p: { xs: 2, md: 3 },
+          borderRadius: { xs: "24px", md: "16px" },
           gap: 0.5,
           height: "100%",
           backgroundColor: "transparent",
@@ -33,7 +33,10 @@ function WeatherDetailCard({
           {/* <AccessAlarm /> */}
           {title && (
             <Typography
-              sx={{ textTransform: "uppercase", color: "GrayText" }}
+              sx={{
+                textTransform: "uppercase",
+                color: { light: "#fff", dark: "#ccc" },
+              }}
               variant="subtitle2"
             >
               {title}

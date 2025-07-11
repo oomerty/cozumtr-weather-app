@@ -6,6 +6,8 @@ import type WeatherType from "../types/WeatherType";
 import { Grid, Paper, Typography } from "@mui/material";
 
 import WeatherDetailCard from "./WeatherDetailCard";
+import UV from "./UV";
+import Forecast from "./Forecast";
 
 interface WeatherDetailsProps {
   details: WeatherType;
@@ -31,14 +33,40 @@ function WeatherDetails({ details }: WeatherDetailsProps) {
   }
 
   useEffect(() => {
-    if (details?.current.is_day) {
-      setMode("day");
-      document.body.style.background =
-        "linear-gradient(180deg, #4c90d9 30%, #b0d2f8 90%)";
-    } else {
-      setMode("night");
-      document.body.style.background =
-        "linear-gradient(180deg, #00060f 30%, #10357a 90%)";
+    if (details?.current) {
+      let backgroundStyle = "";
+
+      const dayGradient = "linear-gradient(180deg, #4c90d9 30%, #95c5fcff 90%)";
+      const nightGradient = "linear-gradient(180deg, #00060f 30%, #10357a 90%)";
+      const baseGradient = details.current.is_day ? dayGradient : nightGradient;
+      setMode(details.current.is_day ? "day" : "night");
+
+      let weatherOverlay = "";
+      const condition = details.current.condition.text.toLowerCase();
+
+      if (condition.includes("rain") || condition.includes("drizzle")) {
+        weatherOverlay = "url('/img/heavy-rain.gif')";
+      } else if (condition.includes("snow")) {
+        weatherOverlay = "url('/weather-gifs/snow.gif')";
+      } else if (condition.includes("thunder") || condition.includes("storm")) {
+        weatherOverlay = "url('/weather-gifs/thunder.gif')";
+      } else if (condition.includes("fog") || condition.includes("mist")) {
+        weatherOverlay = "url('/weather-gifs/fog.gif')";
+      } else if (condition.includes("cloud")) {
+        weatherOverlay = "url('/img/cloud.gif')";
+      }
+
+      if (weatherOverlay) {
+        backgroundStyle = `${baseGradient}, ${weatherOverlay}`;
+      } else {
+        backgroundStyle = baseGradient;
+      }
+
+      document.body.style.background = backgroundStyle;
+      document.body.style.backgroundSize = "cover";
+      document.body.style.backgroundPosition = "center";
+      document.body.style.backgroundRepeat = "no-repeat";
+      document.body.style.backgroundBlendMode = "overlay";
     }
   }, [details, setMode]);
 
@@ -49,7 +77,7 @@ function WeatherDetails({ details }: WeatherDetailsProps) {
         height: "100%",
         maxHeight: { sm: "100%", md: "100vh" },
         overflow: "auto",
-        p: { xs: 2, md: 4 },
+        p: { xs: 2, md: 3 },
         boxSizing: "border-box",
         borderRadius: "32px",
         // Glass
@@ -82,40 +110,7 @@ function WeatherDetails({ details }: WeatherDetailsProps) {
       elevation={0}
     >
       <Grid container spacing={2}>
-        <WeatherDetailCard gridSize={12}>
-          <Grid columns={{ sm: 12, md: 5 }} container spacing={1}>
-            {forecastFromNow &&
-              Object.values(forecastFromNow)
-                .slice(0, 5)
-                .map((el, index) => {
-                  return (
-                    <Grid
-                      key={index}
-                      size={{ sm: 12, md: 1 }}
-                      textAlign="center"
-                      sx={{
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: 0.5,
-                      }}
-                    >
-                      <Typography variant="subtitle2">
-                        {index === 0 ? "Now" : el?.time.split(" ").at(1)}
-                      </Typography>
-                      <Typography variant="h5" sx={{ fontWeight: "600" }}>
-                        {el?.temp_c}°
-                      </Typography>
-                      <Typography
-                        variant="body1"
-                        sx={{ color: "text.secondary" }}
-                      >
-                        {el?.condition.text}
-                      </Typography>
-                    </Grid>
-                  );
-                })}
-          </Grid>
-        </WeatherDetailCard>
+        <Forecast forecastFromNow={forecastFromNow} />
 
         <Wind
           windSpeed={details?.current.wind_kph}
@@ -201,23 +196,6 @@ function Humidity({
       </Typography>
       <Typography variant="body1" sx={{ color: "text.secondary" }}>
         The dew point is {dewpoint}° right now
-      </Typography>
-    </WeatherDetailCard>
-  );
-}
-
-function UV({ uv }: { uv: number }) {
-  return (
-    <WeatherDetailCard title="UV">
-      <Typography variant="h4" sx={{ fontWeight: "500" }}>
-        {uv}
-      </Typography>
-      <Typography variant="body1" sx={{ color: "text.secondary" }}>
-        {uv <= 2
-          ? "No protection needed"
-          : uv <= 7
-          ? "Put on protection and wear protective clothing"
-          : "Put on extra protection and don't stay outside much"}
       </Typography>
     </WeatherDetailCard>
   );

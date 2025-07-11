@@ -3,6 +3,7 @@ import type WeatherType from "../types/WeatherType";
 import { Box, Chip, Typography } from "@mui/material";
 import { LocationOn } from "@mui/icons-material";
 import WeatherSearchBar from "./WeatherSearchBar";
+import WeatherSoundButton from "./WeatherSoundButton";
 
 interface WeatherHeroType {
   details: WeatherType;
@@ -120,6 +121,7 @@ function WeatherHero({ details, handleSearch }: WeatherHeroType) {
           variant="filled"
           onClick={() => handleSearch("Beijing")}
         />
+        <WeatherSoundButton condition={condition} />
       </Box>
     </Box>
   );
