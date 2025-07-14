@@ -2,6 +2,7 @@ import {
   Area,
   AreaChart,
   CartesianGrid,
+  ReferenceLine,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -20,13 +21,16 @@ interface HumidityDrawerProps {
 }
 
 function HumidityDrawer({ details, open, onClose }: HumidityDrawerProps) {
-  const data: { humidity: number; time: string }[] = [];
+  const data: { humidity: number; time: number }[] = [];
 
+  const currTime = Number(
+    details?.location.localtime.split(" ").at(1)?.split(":").at(0)
+  );
   const dailyForecast = details?.forecast.forecastday.at(0)?.hour;
   dailyForecast?.forEach((hourlyForecast) => {
     data.push({
       humidity: hourlyForecast.humidity,
-      time: hourlyForecast.time.split(" ").at(1) || "",
+      time: Number(hourlyForecast.time.split(" ").at(1)?.split(":").at(0)) || 0,
     });
   });
 
@@ -58,15 +62,17 @@ function HumidityDrawer({ details, open, onClose }: HumidityDrawerProps) {
             }}
           >
             {gradient}
-            <CartesianGrid strokeDasharray="3 3" />
+            <CartesianGrid strokeOpacity="0.32" strokeDasharray="3 3" />
             <Tooltip
               content={(props) => CustomTooltip(props as CustomTooltipProps)}
             />
             <XAxis dataKey="time" stroke="rgba(255,255,255,0.6)" />
+            <ReferenceLine x={currTime} stroke="#009fd8ff" strokeWidth={2} />
             <Area
               type="monotone"
               dataKey="humidity"
               stroke="url(#gradient)"
+              strokeWidth={3}
               fill="url(#gradient)"
               activeDot={{
                 r: 8,
@@ -98,7 +104,7 @@ const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
   return (
     <ChartTooltip
       isVisible={!!isVisible}
-      label={label || ""}
+      label={label ? `${label}:00` : ""}
       data={`${payload?.[0]?.value}%`}
     />
   );

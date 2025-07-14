@@ -2,6 +2,7 @@ import {
   Area,
   AreaChart,
   CartesianGrid,
+  ReferenceLine,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -20,14 +21,17 @@ interface WindDrawerProps {
 }
 
 function WindDrawer({ details, open, onClose }: WindDrawerProps) {
-  const data: { windSpeed: number; gust: number; time: string }[] = [];
+  const data: { windSpeed: number; gust: number; time: number }[] = [];
 
+  const currTime = Number(
+    details?.location.localtime.split(" ").at(1)?.split(":").at(0)
+  );
   const dailyForecast = details?.forecast.forecastday.at(0)?.hour;
   dailyForecast?.forEach((hourlyForecast) => {
     data.push({
       windSpeed: hourlyForecast.wind_kph,
       gust: hourlyForecast.gust_kph,
-      time: hourlyForecast.time.split(" ").at(1) || "",
+      time: Number(hourlyForecast.time.split(" ").at(1)?.split(":").at(0)) || 0,
     });
   });
 
@@ -59,21 +63,24 @@ function WindDrawer({ details, open, onClose }: WindDrawerProps) {
             }}
           >
             {gradient}
-            <CartesianGrid strokeDasharray="3 3" />
+            <CartesianGrid strokeOpacity="0.32" strokeDasharray="3 3" />
             <Tooltip
               content={(props) => CustomTooltip(props as CustomTooltipProps)}
             />
             <XAxis dataKey="time" stroke="rgba(255,255,255,0.6)" />
+            <ReferenceLine x={currTime} stroke="#009fd8ff" strokeWidth={2} />
             <Area
               type="monotone"
               dataKey="gust"
               stroke="#009fd8ff"
+              strokeWidth={2}
               fill="transparent"
             />
             <Area
               type="monotone"
               dataKey="windSpeed"
               stroke="url(#gradient)"
+              strokeWidth={3}
               fill="url(#gradient)"
               activeDot={{
                 r: 8,
@@ -100,7 +107,7 @@ const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
   return (
     <ChartTooltip
       isVisible={!!isVisible}
-      label={label || ""}
+      label={label ? `${label}:00` : ""}
       data={`${payload?.[0]?.value} km/h | Gusts: ${payload?.[1]?.value} km/h`}
     />
   );

@@ -2,6 +2,7 @@ import {
   Area,
   AreaChart,
   CartesianGrid,
+  ReferenceLine,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -20,14 +21,16 @@ interface UVDrawerProps {
 }
 
 function UVDrawer({ details, open, onClose }: UVDrawerProps) {
-  const data: { uv: number; time: string }[] = [];
+  const data: { uv: number; time: number }[] = [];
 
+  const currTime = Number(
+    details?.location.localtime.split(" ").at(1)?.split(":").at(0)
+  );
   const uvDaily = details?.forecast.forecastday.at(0)?.hour;
   uvDaily?.forEach((uvHourly) => {
     data.push({
       uv: uvHourly.uv,
-
-      time: uvHourly.time.split(" ").at(1) || "",
+      time: Number(uvHourly.time.split(" ").at(1)?.split(":").at(0)) || 0,
     });
   });
 
@@ -62,16 +65,17 @@ function UVDrawer({ details, open, onClose }: UVDrawerProps) {
             }}
           >
             {gradient}
-            <CartesianGrid strokeDasharray="3 3" />
+            <CartesianGrid strokeOpacity="0.32" strokeDasharray="3 3" />
             <Tooltip
               content={(props) => CustomTooltip(props as CustomTooltipProps)}
             />
             <XAxis dataKey="time" stroke="rgba(255,255,255,0.6)" />
-
+            <ReferenceLine x={currTime} stroke="#009fd8ff" strokeWidth={2} />
             <Area
               type="monotone"
               dataKey="uv"
               stroke="url(#gradient)"
+              strokeWidth={3}
               fill="url(#gradient)"
               activeDot={{
                 r: 8,
@@ -98,7 +102,7 @@ const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
   return (
     <ChartTooltip
       isVisible={!!isVisible}
-      label={label || ""}
+      label={label ? `${label}:00` : ""}
       data={`${payload?.[0]?.value} `}
     />
   );
