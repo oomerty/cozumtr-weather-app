@@ -1,5 +1,5 @@
 import { Box, Grid, Typography } from "@mui/material";
-import WeatherDetailCard from "./WeatherDetailCard";
+import WeatherDetailCard from "./general/WeatherDetailCard";
 
 function Forecast({ forecastFromNow }: { forecastFromNow: object }) {
   return (

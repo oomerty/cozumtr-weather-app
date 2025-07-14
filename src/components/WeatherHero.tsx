@@ -40,7 +40,17 @@ function WeatherHero({ details, handleSearch }: WeatherHeroType) {
           gap: 1,
         }}
       >
-        <Typography variant="h5" sx={{ color: "text.secondary" }}>
+        <Typography
+          variant="h6"
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: 1,
+            color: "text.secondary",
+          }}
+        >
           <LocationOn /> {cityName}, {countryName}
         </Typography>
 

@@ -35,6 +35,7 @@ function Weather() {
       height={{ xs: "fit", md: "100vh" }}
       overflow="hidden"
       paddingY={2}
+      paddingX={{ xs: 2, md: 0 }}
     >
       <Grid size={{ xs: 12, md: 5 }}>
         {loading && <p>Yükleniyor...</p>}

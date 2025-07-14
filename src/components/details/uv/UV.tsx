@@ -1,9 +1,20 @@
-import { Box, Grid, Typography } from "@mui/material";
-import WeatherDetailCard from "./WeatherDetailCard";
+import { useState } from "react";
 
-function UV({ uv }: { uv: number }) {
+import type WeatherType from "../../../types/WeatherType";
+
+import { Box, Grid, Typography } from "@mui/material";
+import WeatherDetailCard from "../../general/WeatherDetailCard";
+import UVDrawer from "./UVDrawer";
+
+function UV({ uv, details }: { uv: number; details: WeatherType }) {
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const handleDrawerToggle = () => {
+    setDrawerOpen(!drawerOpen);
+  };
+
   return (
-    <WeatherDetailCard title="UV">
+    <WeatherDetailCard title="UV" onClick={handleDrawerToggle}>
       <Typography variant="h4" sx={{ fontWeight: "500" }}>
         {uv}
       </Typography>
@@ -15,12 +26,18 @@ function UV({ uv }: { uv: number }) {
           ? "Put on protection and wear protective clothing"
           : "Put on extra protection and don't stay outside much"}
       </Typography>
+      <UVDrawer
+        details={details}
+        open={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+      />
     </WeatherDetailCard>
   );
 }
 
 function UVBar({ uv }: { uv: number }) {
   const uvLevels = [
+    { level: 0, color: "#2aa05fff" },
     { level: 1, color: "#3CB371" },
     { level: 2, color: "#66C265" },
     { level: 3, color: "#A0CB4F" },
@@ -31,6 +48,7 @@ function UVBar({ uv }: { uv: number }) {
     { level: 8, color: "#FF6241" },
     { level: 9, color: "#C13778" },
     { level: 10, color: "#800080" },
+    { level: 11, color: "#530053ff" },
   ];
 
   return (

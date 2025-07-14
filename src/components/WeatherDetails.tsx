@@ -5,9 +5,10 @@ import type WeatherType from "../types/WeatherType";
 
 import { Grid, Paper, Typography } from "@mui/material";
 
-import WeatherDetailCard from "./WeatherDetailCard";
-import UV from "./UV";
+import WeatherDetailCard from "./general/WeatherDetailCard";
+import UV from "./details/uv/UV";
 import Forecast from "./Forecast";
+import Humidity from "./details/humidity/Humidity";
 
 interface WeatherDetailsProps {
   details: WeatherType;
@@ -79,16 +80,6 @@ function WeatherDetails({ details }: WeatherDetailsProps) {
         overflow: "auto",
         p: { xs: 2, md: 3 },
         boxSizing: "border-box",
-        borderRadius: "32px",
-        // Glass
-        backgroundColor: "transparent",
-        backdropFilter: "blur(24px)",
-        fillOpacity: "50%",
-        border: "1px solid rgba(255, 255, 255, 0.2)",
-        boxShadow: "none",
-        backgroundImage:
-          "linear-gradient(to right bottom, rgba(255, 255, 255, 0.1), rgba(239, 239, 239, 0.1))",
-
         "&::-webkit-scrollbar": {
           width: "8px",
           color: "red",
@@ -122,8 +113,9 @@ function WeatherDetails({ details }: WeatherDetailsProps) {
         <Humidity
           humidity={details?.current.humidity}
           dewpoint={details?.current.dewpoint_c}
+          details={details}
         />
-        <UV uv={details?.current.uv} />
+        <UV details={details} uv={details?.current.uv} />
         <Precipitation precipitation={details?.current.precip_mm} />
         <Visibility visibility={details?.current.vis_km} />
       </Grid>
@@ -177,25 +169,6 @@ function FeelsLike({
           ? "warmer than"
           : "almost same as"}{" "}
         the actual temperature
-      </Typography>
-    </WeatherDetailCard>
-  );
-}
-
-function Humidity({
-  humidity,
-  dewpoint,
-}: {
-  humidity: number;
-  dewpoint: number;
-}) {
-  return (
-    <WeatherDetailCard title="Humidity">
-      <Typography variant="h4" sx={{ fontWeight: "500" }}>
-        {humidity}%
-      </Typography>
-      <Typography variant="body1" sx={{ color: "text.secondary" }}>
-        The dew point is {dewpoint}° right now
       </Typography>
     </WeatherDetailCard>
   );

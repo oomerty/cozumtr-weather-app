@@ -5,16 +5,21 @@ interface WeatherDetailCardProps {
   children: React.ReactNode;
   title?: string;
   gridSize?: number;
+  onClick?: () => void;
+  clickable?: boolean;
 }
 
 function WeatherDetailCard({
   title,
   children,
   gridSize,
+  onClick,
+  clickable = false,
 }: WeatherDetailCardProps) {
   return (
     <Grid width="100%" size={{ sm: 12, md: gridSize || 6 }}>
       <Card
+        onClick={onClick}
         variant="outlined"
         sx={{
           display: "flex",
@@ -24,9 +29,21 @@ function WeatherDetailCard({
           gap: 0.5,
           height: "100%",
           backgroundColor: "transparent",
-          backdropFilter: "blur(10px)",
+          backdropFilter: "blur(8px)",
           border: "1px solid rgba(255, 255, 255, 0.2)",
           boxShadow: "none",
+
+          cursor: onClick || clickable ? "pointer" : "default",
+          transition: "all 0.3s ease",
+
+          ...(onClick || clickable
+            ? {
+                "&:hover": {
+                  backdropFilter: "blur(15px)",
+                  border: "1px solid rgba(255, 255, 255, 0.3)",
+                },
+              }
+            : {}),
         }}
       >
         <Box>

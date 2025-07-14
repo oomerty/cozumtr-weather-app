@@ -22,10 +22,13 @@ export default interface WeatherType {
       day: {
         maxtemp_c: number;
         mintemp_c: number;
+        avghumidity: number;
       };
       hour: Array<{
         time: string;
         temp_c: number;
+        humidity: number;
+        uv: number;
         condition: {
           text: string;
           icon: string;
