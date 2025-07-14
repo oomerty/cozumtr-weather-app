@@ -29,6 +29,10 @@ export default interface WeatherType {
         temp_c: number;
         humidity: number;
         uv: number;
+        wind_kph: number;
+        wind_degree: number;
+        wind_dir: string;
+        gust_kph: number;
         condition: {
           text: string;
           icon: string;

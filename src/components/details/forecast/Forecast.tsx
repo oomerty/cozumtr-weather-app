@@ -1,9 +1,24 @@
-import { Box, Grid, Typography } from "@mui/material";
-import WeatherDetailCard from "./general/WeatherDetailCard";
+import type WeatherType from "../../../types/WeatherType";
 
-function Forecast({ forecastFromNow }: { forecastFromNow: object }) {
+import { Box, Grid, Typography } from "@mui/material";
+import WeatherDetailCard from "../../general/WeatherDetailCard";
+import ForecastDrawer from "./ForecastDrawer";
+import { useState } from "react";
+
+function Forecast({
+  details,
+  forecastFromNow,
+}: {
+  details: WeatherType;
+  forecastFromNow: object;
+}) {
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const handleDrawerToggle = () => {
+    setDrawerOpen(!drawerOpen);
+  };
   return (
-    <WeatherDetailCard gridSize={12}>
+    <WeatherDetailCard gridSize={12} onClick={handleDrawerToggle}>
       <Grid columns={{ xs: 12, md: 5 }} container spacing={1}>
         {forecastFromNow &&
           Object.values(forecastFromNow)
@@ -44,6 +59,11 @@ function Forecast({ forecastFromNow }: { forecastFromNow: object }) {
               );
             })}
       </Grid>
+      <ForecastDrawer
+        details={details}
+        open={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+      />
     </WeatherDetailCard>
   );
 }

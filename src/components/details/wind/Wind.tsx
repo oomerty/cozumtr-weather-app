@@ -1,11 +1,11 @@
 import { useState } from "react";
+import type WeatherType from "../../../types/WeatherType";
 
 import { Typography } from "@mui/material";
 import WeatherDetailCard from "../../general/WeatherDetailCard";
-import HumidityDrawer from "./HumidityDrawer";
-import type WeatherType from "../../../types/WeatherType";
+import WindDrawer from "./WindDrawer";
 
-function Humidity({ details }: { details: WeatherType }) {
+function Wind({ details }: { details: WeatherType }) {
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   const handleDrawerToggle = () => {
@@ -13,14 +13,17 @@ function Humidity({ details }: { details: WeatherType }) {
   };
 
   return (
-    <WeatherDetailCard title="Humidity" onClick={handleDrawerToggle}>
+    <WeatherDetailCard title="Wind" onClick={handleDrawerToggle}>
       <Typography variant="h4" sx={{ fontWeight: "500" }}>
-        {details?.current.humidity}%
+        {details?.current.wind_kph} km/h
       </Typography>
       <Typography variant="body1" sx={{ color: "text.secondary" }}>
-        The dew point is {details?.current.dewpoint_c}° right now
+        Direction {details?.current.wind_degree}° {details?.current.wind_dir}
       </Typography>
-      <HumidityDrawer
+      <Typography variant="body1" sx={{ color: "text.secondary" }}>
+        Wind gusts {details?.current.gust_kph} km/h
+      </Typography>
+      <WindDrawer
         details={details}
         open={drawerOpen}
         onClose={() => setDrawerOpen(false)}
@@ -29,4 +32,4 @@ function Humidity({ details }: { details: WeatherType }) {
   );
 }
 
-export default Humidity;
+export default Wind;

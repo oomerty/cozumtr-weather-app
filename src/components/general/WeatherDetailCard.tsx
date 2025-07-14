@@ -40,7 +40,9 @@ function WeatherDetailCard({
             ? {
                 "&:hover": {
                   backdropFilter: "blur(15px)",
+                  transform: "translateY(-1px)",
                   border: "1px solid rgba(255, 255, 255, 0.3)",
+                  boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
                 },
               }
             : {}),

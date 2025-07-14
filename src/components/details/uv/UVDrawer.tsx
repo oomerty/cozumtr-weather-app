@@ -9,7 +9,7 @@ import {
 
 import type WeatherType from "../../../types/WeatherType";
 
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import WeatherDetailDrawer from "../../general/WeatherDetailDrawer";
 import ChartTooltip from "../../general/ChartTooltip";
 
@@ -24,20 +24,33 @@ function UVDrawer({ details, open, onClose }: UVDrawerProps) {
 
   const uvDaily = details?.forecast.forecastday.at(0)?.hour;
   uvDaily?.forEach((uvHourly) => {
-    data.push({ uv: uvHourly.uv, time: uvHourly.time.split(" ").at(1) || "" });
+    data.push({
+      uv: uvHourly.uv,
+
+      time: uvHourly.time.split(" ").at(1) || "",
+    });
   });
 
   return (
     <WeatherDetailDrawer
       open={open}
       onClose={onClose}
-      title="Daily UV Index"
+      title="UV Index"
       desc="The UV Index is a standardized, open-ended scale (typically from 0
             to 11+) that quantifies the strength of sunburn-producing
             ultraviolet (UV) radiation reaching the Earth’s surface at a
             particular time and place."
     >
       <Box>
+        <Box sx={{ textAlign: "center", paddingBottom: 1 }}>
+          <Typography variant="h4" sx={{ fontWeight: "500" }}>
+            {details?.current.uv}
+          </Typography>
+          <Typography variant="subtitle1" sx={{ fontWeight: "400" }}>
+            (as of {details?.location.localtime.split(" ").at(1)})
+          </Typography>
+        </Box>
+
         <ResponsiveContainer width="100%" height={200}>
           <AreaChart
             width={500}
@@ -50,8 +63,11 @@ function UVDrawer({ details, open, onClose }: UVDrawerProps) {
           >
             {gradient}
             <CartesianGrid strokeDasharray="3 3" />
-            <Tooltip content={(props) => CustomTooltip(props as CustomTooltipProps)} />
+            <Tooltip
+              content={(props) => CustomTooltip(props as CustomTooltipProps)}
+            />
             <XAxis dataKey="time" stroke="rgba(255,255,255,0.6)" />
+
             <Area
               type="monotone"
               dataKey="uv"
@@ -73,21 +89,17 @@ function UVDrawer({ details, open, onClose }: UVDrawerProps) {
 
 interface CustomTooltipProps {
   active?: boolean;
-  payload?: Array<{value: number}>;
+  payload?: Array<{ value: number }>;
   label?: string;
 }
 
-const CustomTooltip = ({
-  active,
-  payload,
-  label,
-}: CustomTooltipProps) => {
+const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
   const isVisible = active && payload && payload.length > 0;
   return (
     <ChartTooltip
       isVisible={!!isVisible}
       label={label || ""}
-      data={`${payload?.[0]?.value}`}
+      data={`${payload?.[0]?.value} `}
     />
   );
 };

@@ -6,8 +6,9 @@ import { Box, Grid, Typography } from "@mui/material";
 import WeatherDetailCard from "../../general/WeatherDetailCard";
 import UVDrawer from "./UVDrawer";
 
-function UV({ uv, details }: { uv: number; details: WeatherType }) {
+function UV({ details }: { details: WeatherType }) {
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const uv = details?.current.uv;
 
   const handleDrawerToggle = () => {
     setDrawerOpen(!drawerOpen);

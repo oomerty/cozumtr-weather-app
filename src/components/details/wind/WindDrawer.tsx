@@ -13,19 +13,20 @@ import { Box, Typography } from "@mui/material";
 import WeatherDetailDrawer from "../../general/WeatherDetailDrawer";
 import ChartTooltip from "../../general/ChartTooltip";
 
-interface HumidityDrawerProps {
+interface WindDrawerProps {
   details: WeatherType;
   open: boolean;
   onClose: () => void;
 }
 
-function HumidityDrawer({ details, open, onClose }: HumidityDrawerProps) {
-  const data: { humidity: number; time: string }[] = [];
+function WindDrawer({ details, open, onClose }: WindDrawerProps) {
+  const data: { windSpeed: number; gust: number; time: string }[] = [];
 
   const dailyForecast = details?.forecast.forecastday.at(0)?.hour;
   dailyForecast?.forEach((hourlyForecast) => {
     data.push({
-      humidity: hourlyForecast.humidity,
+      windSpeed: hourlyForecast.wind_kph,
+      gust: hourlyForecast.gust_kph,
       time: hourlyForecast.time.split(" ").at(1) || "",
     });
   });
@@ -34,13 +35,13 @@ function HumidityDrawer({ details, open, onClose }: HumidityDrawerProps) {
     <WeatherDetailDrawer
       open={open}
       onClose={onClose}
-      title="Humidity"
-      desc="Humidity refers to the amount of water vapor (invisible water gas) present in the air. Humidity tells how “moist” the air feels, how it affects comfort, health, and weather."
+      title="Wind"
+      desc="Wind..."
     >
       <Box>
         <Box sx={{ textAlign: "center", paddingBottom: 1 }}>
           <Typography variant="h4" sx={{ fontWeight: "500" }}>
-            {details?.current.humidity}%
+            {details?.current.wind_kph} km/h
           </Typography>
           <Typography variant="subtitle1" sx={{ fontWeight: "400" }}>
             (as of {details?.location.localtime.split(" ").at(1)})
@@ -65,7 +66,13 @@ function HumidityDrawer({ details, open, onClose }: HumidityDrawerProps) {
             <XAxis dataKey="time" stroke="rgba(255,255,255,0.6)" />
             <Area
               type="monotone"
-              dataKey="humidity"
+              dataKey="gust"
+              stroke="#009fd8ff"
+              fill="transparent"
+            />
+            <Area
+              type="monotone"
+              dataKey="windSpeed"
               stroke="url(#gradient)"
               fill="url(#gradient)"
               activeDot={{
@@ -77,11 +84,6 @@ function HumidityDrawer({ details, open, onClose }: HumidityDrawerProps) {
             />
           </AreaChart>
         </ResponsiveContainer>
-
-        <Typography>
-          Today, the average humidity is{" "}
-          {details?.forecast.forecastday.at(0)?.day.avghumidity}%.
-        </Typography>
       </Box>
     </WeatherDetailDrawer>
   );
@@ -99,7 +101,7 @@ const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
     <ChartTooltip
       isVisible={!!isVisible}
       label={label || ""}
-      data={`${payload?.[0]?.value}%`}
+      data={`${payload?.[0]?.value} km/h | Gusts: ${payload?.[1]?.value} km/h`}
     />
   );
 };
@@ -107,11 +109,10 @@ const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
 const gradient = (
   <defs>
     <linearGradient id="gradient" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stopColor="#9400d8ff" stopOpacity={0.8} />
-      <stop offset="50%" stopColor="#009fd8ff" stopOpacity={0.8} />
+      <stop offset="0%" stopColor="#009fd8ff" stopOpacity={0.8} />
       <stop offset="100%" stopColor="#00f078ff" stopOpacity={0.8} />
     </linearGradient>
   </defs>
 );
 
-export default HumidityDrawer;
+export default WindDrawer;

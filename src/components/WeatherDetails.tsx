@@ -7,8 +7,9 @@ import { Grid, Paper, Typography } from "@mui/material";
 
 import WeatherDetailCard from "./general/WeatherDetailCard";
 import UV from "./details/uv/UV";
-import Forecast from "./Forecast";
+import Forecast from "./details/forecast/Forecast";
 import Humidity from "./details/humidity/Humidity";
+import Wind from "./details/wind/Wind";
 
 interface WeatherDetailsProps {
   details: WeatherType;
@@ -101,51 +102,16 @@ function WeatherDetails({ details }: WeatherDetailsProps) {
       elevation={0}
     >
       <Grid container spacing={2}>
-        <Forecast forecastFromNow={forecastFromNow} />
+        <Forecast details={details} forecastFromNow={forecastFromNow} />
 
-        <Wind
-          windSpeed={details?.current.wind_kph}
-          windDeg={details?.current.wind_degree}
-          windDir={details?.current.wind_dir}
-          windGust={details?.current.gust_kph}
-        />
+        <Wind details={details} />
         <FeelsLike feelsLikeTemp={feelsLikeTemp} currentTemp={currentTemp} />
-        <Humidity
-          humidity={details?.current.humidity}
-          dewpoint={details?.current.dewpoint_c}
-          details={details}
-        />
-        <UV details={details} uv={details?.current.uv} />
+        <Humidity details={details} />
+        <UV details={details} />
         <Precipitation precipitation={details?.current.precip_mm} />
         <Visibility visibility={details?.current.vis_km} />
       </Grid>
     </Paper>
-  );
-}
-
-function Wind({
-  windSpeed,
-  windDeg,
-  windDir,
-  windGust,
-}: {
-  windSpeed: number;
-  windDeg: number;
-  windDir: string;
-  windGust: number;
-}) {
-  return (
-    <WeatherDetailCard title="Wind">
-      <Typography variant="h4" sx={{ fontWeight: "500" }}>
-        {windSpeed} km/h
-      </Typography>
-      <Typography variant="body1" sx={{ color: "text.secondary" }}>
-        Direction {windDeg}° {windDir}
-      </Typography>
-      <Typography variant="body1" sx={{ color: "text.secondary" }}>
-        Wind gusts {windGust} km/h
-      </Typography>
-    </WeatherDetailCard>
   );
 }
 
