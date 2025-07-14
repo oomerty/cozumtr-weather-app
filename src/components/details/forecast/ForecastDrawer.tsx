@@ -36,7 +36,7 @@ function HumidityDrawer({ details, open, onClose }: HumidityDrawerProps) {
   });
 
   return (
-    <WeatherDetailDrawer open={open} onClose={onClose} title="Humidity">
+    <WeatherDetailDrawer open={open} onClose={onClose} title="Forecast">
       <Box>
         <Box sx={{ textAlign: "center", paddingBottom: 1 }}>
           <Typography variant="h4" sx={{ fontWeight: "500" }}>
