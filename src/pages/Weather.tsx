@@ -38,11 +38,11 @@ function Weather() {
       paddingX={{ xs: 2, md: 0 }}
     >
       <Grid size={{ xs: 12, md: 5 }}>
-        {loading && <p>Yükleniyor...</p>}
-        {error && <p>{error}</p>}
         <WeatherHero
           details={weather as WeatherType}
           handleSearch={handleSearch}
+          loading={loading}
+          error={error}
         />
       </Grid>
       <Grid size={{ xs: 12, md: 7 }} height="100%">

@@ -39,10 +39,10 @@ function UVDrawer({ details, open, onClose }: UVDrawerProps) {
       open={open}
       onClose={onClose}
       title="UV Index"
-      desc="The UV Index is a standardized, open-ended scale (typically from 0
+      desc={`The UV Index is a standardized, open-ended scale (typically from 0
             to 11+) that quantifies the strength of sunburn-producing
             ultraviolet (UV) radiation reaching the Earth’s surface at a
-            particular time and place."
+            particular time and place.\n\nIt’s a linear system, meaning a UV Index of 10 is roughly twice as harmful as a 5—so higher numbers mean sunburn can happen much faster . When the index reaches 3 or above, protective measures like sunscreen, shade, and hats are advised; at values of 11+, damage to the skin and eyes can occur within minutes, making full protection essential.`}
     >
       <Box>
         <Box sx={{ textAlign: "center", paddingBottom: 1 }}>

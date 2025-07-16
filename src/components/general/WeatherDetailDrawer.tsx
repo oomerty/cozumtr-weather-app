@@ -30,7 +30,17 @@ function WeatherDetailDrawer({
         </Typography>
       )}
       {children}
-      <Box sx={{ paddingTop: 1 }}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          gap: 0.5,
+          paddingTop: 1,
+        }}
+      >
+        <Typography variant="subtitle1" sx={{ fontWeight: 500 }}>
+          About {title}
+        </Typography>
         <Typography variant="body1">{desc}</Typography>
       </Box>
     </Drawer>

@@ -32,9 +32,9 @@ function Forecast({
                   sx={{
                     display: "flex",
                     flexDirection: { xs: "row", md: "column" },
-                    justifyContent: "space-between",
+                    justifyContent: { xs: "space-between", md: "start" },
                     alignItems: "center",
-                    gap: { xs: 2, md: 0.5 },
+                    gap: { xs: 2, md: 1 },
                   }}
                 >
                   <Box
@@ -52,7 +52,13 @@ function Forecast({
                       {el?.temp_c}°
                     </Typography>
                   </Box>
-                  <Typography variant="body1" sx={{ color: "text.secondary" }}>
+                  <Typography
+                    variant="body1"
+                    sx={{
+                      color: "text.secondary",
+                      textAlign: { xs: "end", md: "center" },
+                    }}
+                  >
                     {el?.condition.text}
                   </Typography>
                 </Grid>

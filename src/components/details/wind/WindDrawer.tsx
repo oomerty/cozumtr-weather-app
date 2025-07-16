@@ -40,7 +40,7 @@ function WindDrawer({ details, open, onClose }: WindDrawerProps) {
       open={open}
       onClose={onClose}
       title="Wind"
-      desc="Wind..."
+      desc="The wind speed is calculated using the average over a short period of time. Gusts are short bursts of wind above this average. A gust typically lasts under 20 seconds."
     >
       <Box>
         <Box sx={{ textAlign: "center", paddingBottom: 1 }}>
@@ -91,6 +91,11 @@ function WindDrawer({ details, open, onClose }: WindDrawerProps) {
             />
           </AreaChart>
         </ResponsiveContainer>
+
+        <Typography variant="body1">
+          Today, the maximum wind speed will reach{" "}
+          {details?.forecast.forecastday.at(0)?.day.maxwind_kph} km/h.
+        </Typography>
       </Box>
     </WeatherDetailDrawer>
   );

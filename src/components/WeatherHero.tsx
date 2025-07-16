@@ -8,9 +8,16 @@ import WeatherSoundButton from "./WeatherSoundButton";
 interface WeatherHeroType {
   details: WeatherType;
   handleSearch: (city: string) => void;
+  loading?: boolean;
+  error?: string | null;
 }
 
-function WeatherHero({ details, handleSearch }: WeatherHeroType) {
+function WeatherHero({
+  details,
+  handleSearch,
+  loading,
+  error,
+}: WeatherHeroType) {
   const cityName = details?.location.name;
   const countryName = details?.location.country;
 
@@ -51,14 +58,16 @@ function WeatherHero({ details, handleSearch }: WeatherHeroType) {
             color: "text.secondary",
           }}
         >
-          <LocationOn /> {cityName}, {countryName}
+          <LocationOn /> {loading || error || `${cityName}, ${countryName}`}{" "}
+          {loading && "Loading..."}
         </Typography>
 
         <Typography
           variant="h2"
           sx={{ color: "text.primary", fontWeight: "600" }}
         >
-          {currentTemp && currentTemp}°
+          {loading || !!error || (currentTemp && `${currentTemp}°`)}{" "}
+          {(loading || error) && "--.-°"}
         </Typography>
         <Box
           sx={{
@@ -69,10 +78,16 @@ function WeatherHero({ details, handleSearch }: WeatherHeroType) {
             color: "text.secondary",
           }}
         >
-          <Typography variant="h6">H: {highTemp && highTemp}°</Typography>
-          <Typography variant="h6">L: {lowTemp && lowTemp}°</Typography>
+          <Typography variant="h6">
+            H: {loading || !!error || `${highTemp}°`}
+            {(loading || error) && "--.-°"}
+          </Typography>
+          <Typography variant="h6">
+            L: {loading || !!error || `${lowTemp}°`}
+            {(loading || error) && "--.-°"}
+          </Typography>
           <Chip
-            label={condition}
+            label={loading || !!error ? "Condition" : condition}
             variant="outlined"
             sx={{
               border: "1px solid red",
@@ -86,7 +101,9 @@ function WeatherHero({ details, handleSearch }: WeatherHeroType) {
         </Box>
 
         <Typography variant="body1" sx={{ fontWeight: "400" }}>
-          {currentTemp >= 30
+          {loading || !!error
+            ? " "
+            : currentTemp >= 30
             ? "It is quite hot outside, stay hydrated"
             : currentTemp >= 20
             ? "Weather is nice today, enjoy outdoors"

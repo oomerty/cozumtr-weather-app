@@ -100,6 +100,25 @@ const darkTheme = {
           border: "1px solid rgba(255, 255, 255, 0.2)",
           boxShadow: "none",
           backgroundImage: containerGlass,
+          maxHeight: "66vh",
+          "&::-webkit-scrollbar": {
+            width: "8px",
+            color: "red",
+            backgroundColor: "transparent",
+          },
+          "&::-webkit-scrollbar-thumb": {
+            backgroundColor: "rgba(255, 255, 255, 0.3)",
+            borderRadius: "32px",
+            "&:hover": {
+              backgroundColor: "rgba(255, 255, 255, 0.5)",
+            },
+          },
+          "&::-webkit-scrollbar-track": {
+            backgroundColor: "rgba(0, 0, 0, 0.1)",
+            borderRadius: "32px",
+            marginTop: "32px",
+            marginBottom: "16px",
+          },
         },
       },
     },
