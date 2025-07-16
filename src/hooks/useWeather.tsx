@@ -1,12 +1,13 @@
 import useSWRMutation from "swr/mutation";
 import axios, { AxiosError } from "axios";
+import type WeatherType from "../types/WeatherType";
 
 const API_URL = import.meta.env.VITE_WEATHER_API_URL;
 const API_KEY = import.meta.env.VITE_WEATHER_API_KEY;
 
 interface UseWeatherReturn {
   fetchWeather: (city: string) => void;
-  weather: object;
+  weather: WeatherType;
   loading: boolean;
   error: string | null;
 }

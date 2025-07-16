@@ -42,7 +42,31 @@ function MainLayout() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Container maxWidth={false} sx={{ margin: 0, padding: 0, width: "100%" }}>
+      <Container
+        maxWidth={false}
+        sx={{
+          margin: 0,
+          padding: 0,
+          width: "100%",
+          "&::-webkit-scrollbar": {
+            width: "8px",
+            color: "red",
+            backgroundColor: "transparent",
+          },
+          "&::-webkit-scrollbar-thumb": {
+            backgroundColor: "rgba(255, 255, 255, 0.3)",
+            borderRadius: "32px",
+            "&:hover": {
+              backgroundColor: "rgba(255, 255, 255, 0.5)",
+            },
+          },
+          "&::-webkit-scrollbar-track": {
+            backgroundColor: "rgba(0, 0, 0, 0.1)",
+            borderRadius: "32px",
+            marginY: "32px",
+          },
+        }}
+      >
         <Outlet />
       </Container>
     </ThemeProvider>

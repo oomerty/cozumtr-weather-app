@@ -1,10 +1,12 @@
 import { useState, type ChangeEvent } from "react";
 import { Button, FormControl, TextField } from "@mui/material";
 
-function WeatherSearchBar({
+function SearchBar({
   handleSearch,
+  text,
 }: {
   handleSearch: (city: string) => void;
+  text: string;
 }) {
   const [search, setSearch] = useState("");
 
@@ -16,7 +18,7 @@ function WeatherSearchBar({
     <FormControl sx={{ width: "100%", flexDirection: "row", gap: 1 }}>
       <TextField
         id="search"
-        label="Search"
+        label={text ? text : "Search"}
         variant="outlined"
         size="small"
         value={search}
@@ -47,4 +49,4 @@ function WeatherSearchBar({
   );
 }
 
-export default WeatherSearchBar;
+export default SearchBar;

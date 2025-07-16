@@ -10,3 +10,30 @@ body {
   display: inline-block;
   margin: 0;
 }
+
+/* HERO TEMP FONT */
+.hero-temp {
+  font-size: 128px;
+  font-weight: 700;
+  /* -webkit-text-stroke: 1px rgba(255, 255, 255, 0.24); */
+
+  /* color: #f3f3f3;
+  background-image: linear-gradient(
+    to right bottom,
+    rgba(255, 255, 255, 0.32),
+    rgba(230, 230, 230, 0.32)
+  ); */
+  background-clip: text;
+  fill-opacity: 50%;
+
+  transform: translateY(0px);
+  transition: 1500ms;
+}
+
+@starting-style {
+  .hero-temp {
+    /* color: transparent; */
+    opacity: 0%;
+    transform: translateY(-32px);
+  }
+}

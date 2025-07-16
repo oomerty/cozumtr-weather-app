@@ -1,30 +1,22 @@
 import type WeatherType from "../types/WeatherType";
 
-import { Box, Chip, Typography } from "@mui/material";
 import { LocationOn } from "@mui/icons-material";
-import WeatherSearchBar from "./WeatherSearchBar";
-import WeatherSoundButton from "./WeatherSoundButton";
+import { Box, Typography } from "@mui/material";
 
 interface WeatherHeroType {
   details: WeatherType;
-  handleSearch: (city: string) => void;
   loading?: boolean;
   error?: string | null;
+  ref: React.RefObject<unknown>;
 }
 
-function WeatherHero({
-  details,
-  handleSearch,
-  loading,
-  error,
-}: WeatherHeroType) {
-  const cityName = details?.location.name;
-  const countryName = details?.location.country;
-
+function WeatherHero({ details, loading, error, ref }: WeatherHeroType) {
   const condition = details?.current.condition.text;
   const currentTemp = details?.current.temp_c;
   const highTemp = details?.forecast.forecastday[0].day.maxtemp_c;
   const lowTemp = details?.forecast.forecastday[0].day.mintemp_c;
+  const cityName = details?.location.name;
+  const countryName = details?.location.country;
 
   return (
     <Box
@@ -36,25 +28,25 @@ function WeatherHero({
         justifyContent: "space-between",
         gap: 4,
       }}
+      ref={ref}
     >
-      <WeatherSearchBar handleSearch={handleSearch} />
-
       <Box
         sx={{
           display: "flex",
           flexDirection: "column",
+          justifyContent: "center",
           textAlign: "center",
           gap: 1,
+          height: { xs: "max-content", md: "50vh" },
+          paddingTop: { xs: 8, md: 0 },
+          paddingBottom: { xs: 0, md: 4 },
         }}
       >
         <Typography
           variant="h6"
           sx={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center",
-            gap: 1,
+            display: { xs: "inline-block", md: "none" },
+            fontWeight: 500,
             color: "text.secondary",
           }}
         >
@@ -64,11 +56,16 @@ function WeatherHero({
 
         <Typography
           variant="h2"
-          sx={{ color: "text.primary", fontWeight: "600" }}
+          className="hero-temp"
+          sx={{
+            fontWeight: "700",
+            fontSize: "96px",
+          }}
         >
           {loading || !!error || (currentTemp && `${currentTemp}°`)}{" "}
-          {(loading || error) && "--.-°"}
+          {(loading || error) && "—.-°"}
         </Typography>
+
         <Box
           sx={{
             display: "flex",
@@ -86,21 +83,13 @@ function WeatherHero({
             L: {loading || !!error || `${lowTemp}°`}
             {(loading || error) && "--.-°"}
           </Typography>
-          <Chip
-            label={loading || !!error ? "Condition" : condition}
-            variant="outlined"
-            sx={{
-              border: "1px solid red",
-              borderColor: "text.secondary",
-              color: "text.secondary",
-              fontWeight: "500",
-              width: "max-content",
-              alignSelf: "center",
-            }}
-          />
         </Box>
 
-        <Typography variant="body1" sx={{ fontWeight: "400" }}>
+        <Typography variant="body1">
+          {loading || !!error ? "Condition" : condition}
+        </Typography>
+
+        {/* <Typography variant="body1" sx={{ fontWeight: "400" }}>
           {loading || !!error
             ? " "
             : currentTemp >= 30
@@ -110,10 +99,10 @@ function WeatherHero({
             : currentTemp >= 10
             ? "It is cool, don't forget your jacket"
             : "It is quite cold outsize, stay warm"}
-        </Typography>
+        </Typography> */}
       </Box>
 
-      <Box
+      {/* <Box
         sx={{
           display: "flex",
           flexDirection: "row",
@@ -149,7 +138,7 @@ function WeatherHero({
           onClick={() => handleSearch("Beijing")}
         />
         <WeatherSoundButton condition={condition} />
-      </Box>
+      </Box> */}
     </Box>
   );
 }

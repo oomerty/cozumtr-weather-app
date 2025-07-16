@@ -19,10 +19,10 @@ function Forecast({
   };
   return (
     <WeatherDetailCard gridSize={12} onClick={handleDrawerToggle}>
-      <Grid columns={{ xs: 12, md: 5 }} container spacing={1}>
+      <Grid columns={{ xs: 12, md: 6 }} container spacing={1}>
         {forecastFromNow &&
           Object.values(forecastFromNow)
-            .slice(0, 5)
+            .slice(0, 6)
             .map((el, index) => {
               return (
                 <Grid

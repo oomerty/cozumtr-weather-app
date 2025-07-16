@@ -1,6 +1,3 @@
-import { useEffect } from "react";
-
-import { useThemeMode } from "../contexts/useThemeMode";
 import type WeatherType from "../types/WeatherType";
 
 import { Grid, Paper, Typography } from "@mui/material";
@@ -17,8 +14,6 @@ interface WeatherDetailsProps {
 }
 
 function WeatherDetails({ details }: WeatherDetailsProps) {
-  const { setMode } = useThemeMode();
-
   const timeEpoch = Date.parse(details?.location.localtime);
   const time = new Date(timeEpoch);
 
@@ -32,70 +27,15 @@ function WeatherDetails({ details }: WeatherDetailsProps) {
     });
   }
 
-  useEffect(() => {
-    if (details?.current) {
-      let backgroundStyle = "";
-
-      const dayGradient = "linear-gradient(180deg, #4c90d9 30%, #95c5fcff 90%)";
-      const nightGradient = "linear-gradient(180deg, #00060f 30%, #10357a 90%)";
-      const baseGradient = details.current.is_day ? dayGradient : nightGradient;
-      setMode(details.current.is_day ? "day" : "night");
-
-      let weatherOverlay = "";
-      const condition = details.current.condition.text.toLowerCase();
-
-      if (condition.includes("rain") || condition.includes("drizzle")) {
-        weatherOverlay = "url('/img/heavy-rain.gif')";
-      } else if (condition.includes("snow")) {
-        weatherOverlay = "url('/weather-gifs/snow.gif')";
-      } else if (condition.includes("thunder") || condition.includes("storm")) {
-        weatherOverlay = "url('/weather-gifs/thunder.gif')";
-      } else if (condition.includes("fog") || condition.includes("mist")) {
-        weatherOverlay = "url('/weather-gifs/fog.gif')";
-      } else if (condition.includes("cloud")) {
-        weatherOverlay = "url('/img/cloud.gif')";
-      }
-
-      if (weatherOverlay) {
-        backgroundStyle = `${baseGradient}, ${weatherOverlay}`;
-      } else {
-        backgroundStyle = baseGradient;
-      }
-
-      document.body.style.background = backgroundStyle;
-      document.body.style.backgroundSize = "cover";
-      document.body.style.backgroundPosition = "center";
-      document.body.style.backgroundRepeat = "no-repeat";
-      document.body.style.backgroundBlendMode = "overlay";
-    }
-  }, [details, setMode]);
-
   return (
     <Paper
       sx={{
         flexDirection: "column",
-        height: "100%",
-        maxHeight: { sm: "100%", md: "100vh" },
+        height: "max-content",
+        // maxHeight: { sm: "100%", md: "100vh" },
         overflow: "auto",
         p: { xs: 2, md: 3 },
         boxSizing: "border-box",
-        "&::-webkit-scrollbar": {
-          width: "8px",
-          color: "red",
-          backgroundColor: "transparent",
-        },
-        "&::-webkit-scrollbar-thumb": {
-          backgroundColor: "rgba(255, 255, 255, 0.3)",
-          borderRadius: "32px",
-          "&:hover": {
-            backgroundColor: "rgba(255, 255, 255, 0.5)",
-          },
-        },
-        "&::-webkit-scrollbar-track": {
-          backgroundColor: "rgba(0, 0, 0, 0.1)",
-          borderRadius: "32px",
-          marginY: "32px",
-        },
       }}
       elevation={0}
     >
@@ -106,6 +46,8 @@ function WeatherDetails({ details }: WeatherDetailsProps) {
         <FeelsLike details={details} />
         <Humidity details={details} />
         <UV details={details} />
+        <Precipitation precipitation={details?.current.precip_mm} />
+        <Visibility visibility={details?.current.vis_km} />
         <Precipitation precipitation={details?.current.precip_mm} />
         <Visibility visibility={details?.current.vis_km} />
       </Grid>
