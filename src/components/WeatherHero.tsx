@@ -37,7 +37,7 @@ function WeatherHero({ details, loading, error, ref }: WeatherHeroType) {
           justifyContent: "center",
           textAlign: "center",
           gap: 1,
-          height: { xs: "max-content", md: "50vh" },
+          height: { xs: "max-content", md: "33vh" },
           paddingTop: { xs: 8, md: 0 },
           paddingBottom: { xs: 0, md: 4 },
         }}
@@ -65,7 +65,6 @@ function WeatherHero({ details, loading, error, ref }: WeatherHeroType) {
           {loading || !!error || (currentTemp && `${currentTemp}°`)}{" "}
           {(loading || error) && "—.-°"}
         </Typography>
-
         <Box
           sx={{
             display: "flex",
@@ -77,11 +76,11 @@ function WeatherHero({ details, loading, error, ref }: WeatherHeroType) {
         >
           <Typography variant="h6">
             H: {loading || !!error || `${highTemp}°`}
-            {(loading || error) && "--.-°"}
+            {(loading || error) && "—.-°"}
           </Typography>
           <Typography variant="h6">
             L: {loading || !!error || `${lowTemp}°`}
-            {(loading || error) && "--.-°"}
+            {(loading || error) && "—.-°"}
           </Typography>
         </Box>
 

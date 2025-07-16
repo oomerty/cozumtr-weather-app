@@ -30,23 +30,24 @@ function NavBar({
     <Grid
       container
       width="100%"
-      spacing={2}
       sx={{
         position: "sticky",
         paddingY: { xs: 0, md: 2 },
-        justifyContent: "space-between",
         alignItems: "center",
+        display: "flex",
+        justifyContent: "space-between",
       }}
     >
-      <Grid columns={4}>
+      <Grid sx={{ width: { xs: "100%", md: "25%" } }}>
         <NavbarUpdateDate details={details} />
       </Grid>
 
       <Grid
-        columns={4}
         sx={{
           display: { xs: "none", md: "flex" },
           justifyContent: "center",
+          width: { xs: "100%", md: "50%" },
+          textAlign: "center",
         }}
       >
         <NavbarLocation
@@ -57,9 +58,17 @@ function NavBar({
         />
       </Grid>
 
-      <Grid columns={4} sx={{ width: { xs: "100%", md: "max-content" } }}>
+      <Grid
+        sx={{
+          width: { xs: "100%", md: "25%" },
+          display: "flex",
+          justifyContent: { xs: "center", md: "flex-end" },
+        }}
+      >
         <SearchBar
-          text={`Search cities like ${details?.location.name}`}
+          text={
+            details ? `${details?.location.name} & more` : "Search a location"
+          }
           handleSearch={handleSearch}
         />
       </Grid>
@@ -91,7 +100,14 @@ function NavbarLocation({
   const currentTemp = details?.current.temp_c;
 
   return (
-    <Box display="flex" flexDirection="row" gap={2}>
+    <Box
+      display="flex"
+      flexDirection="row"
+      gap={2}
+      width="fit-content"
+      margin="0 auto"
+      position="relative"
+    >
       <Typography
         variant="subtitle1"
         sx={{
@@ -104,7 +120,7 @@ function NavbarLocation({
         }}
       >
         <LocationOn /> {loading || error || `${cityName}, ${countryName}`}{" "}
-        {loading && "Loading..."}
+        {loading && "—, —"}
       </Typography>
 
       {heroOffScreen && (
@@ -127,7 +143,7 @@ function NavbarLocation({
           }}
         >
           {loading || error || `${currentTemp}° ${condition}`}
-          {loading && "--.-°"}
+          {loading && "—.-°"}
         </Typography>
       )}
     </Box>
