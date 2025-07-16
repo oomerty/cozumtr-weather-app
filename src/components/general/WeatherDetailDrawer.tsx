@@ -38,10 +38,14 @@ function WeatherDetailDrawer({
           paddingTop: 1,
         }}
       >
-        <Typography variant="subtitle1" sx={{ fontWeight: 500 }}>
-          About {title}
-        </Typography>
-        <Typography variant="body1">{desc}</Typography>
+        {desc && (
+          <>
+            <Typography variant="subtitle1" sx={{ fontWeight: 500 }}>
+              About {title}
+            </Typography>
+            <Typography variant="body1">{desc}</Typography>
+          </>
+        )}
       </Box>
     </Drawer>
   );

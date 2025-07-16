@@ -6,6 +6,7 @@ import {
   ResponsiveContainer,
   Tooltip,
   XAxis,
+  YAxis,
 } from "recharts";
 
 import type WeatherType from "../../../types/WeatherType";
@@ -14,14 +15,15 @@ import { Box, Typography } from "@mui/material";
 import WeatherDetailDrawer from "../../general/WeatherDetailDrawer";
 import ChartTooltip from "../../general/ChartTooltip";
 
-interface WindDrawerProps {
+interface FeelsLikeDrawerProps {
   details: WeatherType;
   open: boolean;
   onClose: () => void;
 }
 
-function WindDrawer({ details, open, onClose }: WindDrawerProps) {
-  const data: { windSpeed: number; gust: number; time: number }[] = [];
+function FeelsLikeDrawer({ details, open, onClose }: FeelsLikeDrawerProps) {
+  const data: { feelsLikeTemp: number; actualTemp: number; time: number }[] =
+    [];
 
   const currTime = Number(
     details?.location.localtime.split(" ").at(1)?.split(":").at(0)
@@ -29,23 +31,21 @@ function WindDrawer({ details, open, onClose }: WindDrawerProps) {
   const dailyForecast = details?.forecast.forecastday.at(0)?.hour;
   dailyForecast?.forEach((hourlyForecast) => {
     data.push({
-      windSpeed: hourlyForecast.wind_kph,
-      gust: hourlyForecast.gust_kph,
+      feelsLikeTemp: hourlyForecast.feelslike_c,
+      actualTemp: hourlyForecast.temp_c,
       time: Number(hourlyForecast.time.split(" ").at(1)?.split(":").at(0)) || 0,
     });
   });
 
+  const currentTemp = details?.current.temp_c;
+  const feelsLikeTemp = details?.current.feelslike_c;
+
   return (
-    <WeatherDetailDrawer
-      open={open}
-      onClose={onClose}
-      title="Wind"
-      desc="The wind speed is calculated using the average over a short period of time. Gusts are short bursts of wind above this average. A gust typically lasts under 20 seconds."
-    >
+    <WeatherDetailDrawer open={open} onClose={onClose} title="Feels Like">
       <Box>
         <Box sx={{ textAlign: "center", paddingBottom: 1 }}>
           <Typography variant="h4" sx={{ fontWeight: "500" }}>
-            {details?.current.wind_kph} km/h
+            {feelsLikeTemp}°
           </Typography>
           <Typography variant="subtitle1" sx={{ fontWeight: "400" }}>
             (as of {details?.location.localtime.split(" ").at(1)})
@@ -67,18 +67,12 @@ function WindDrawer({ details, open, onClose }: WindDrawerProps) {
             <Tooltip
               content={(props) => CustomTooltip(props as CustomTooltipProps)}
             />
+            <YAxis dataKey="feelsLikeTemp" stroke="rgba(255,255,255,0.6)" />
             <XAxis dataKey="time" stroke="rgba(255,255,255,0.6)" />
             <ReferenceLine x={currTime} stroke="#009fd8ff" strokeWidth={2} />
             <Area
               type="monotone"
-              dataKey="gust"
-              stroke="#009fd8ff"
-              strokeWidth={2}
-              fill="transparent"
-            />
-            <Area
-              type="monotone"
-              dataKey="windSpeed"
+              dataKey="feelsLikeTemp"
               stroke="url(#gradient)"
               strokeWidth={3}
               fill="url(#gradient)"
@@ -93,8 +87,13 @@ function WindDrawer({ details, open, onClose }: WindDrawerProps) {
         </ResponsiveContainer>
 
         <Typography variant="body1">
-          Today, the maximum wind speed will reach{" "}
-          {details?.forecast.forecastday.at(0)?.day.maxwind_kph} km/h.
+          Currently, it feels{" "}
+          {currentTemp > feelsLikeTemp
+            ? "cooler than"
+            : currentTemp < feelsLikeTemp
+            ? "warmer than"
+            : "almost same as"}{" "}
+          {`(${feelsLikeTemp}°)`} the actual temperature {`(${currentTemp}°)`} .
         </Typography>
       </Box>
     </WeatherDetailDrawer>
@@ -103,7 +102,7 @@ function WindDrawer({ details, open, onClose }: WindDrawerProps) {
 
 interface CustomTooltipProps {
   active?: boolean;
-  payload?: Array<{ value: number }>;
+  payload?: Array<{ value: number; payload: { actualTemp: number } }>;
   label?: string;
 }
 
@@ -113,7 +112,7 @@ const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
     <ChartTooltip
       isVisible={!!isVisible}
       label={label ? `${label}:00` : ""}
-      data={`${payload?.[1]?.value} km/h | Gusts: ${payload?.[0]?.value} km/h`}
+      data={`${payload?.[0]?.value}° | Actual Temperature ${payload?.[0]?.payload.actualTemp}°`}
     />
   );
 };
@@ -121,10 +120,12 @@ const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
 const gradient = (
   <defs>
     <linearGradient id="gradient" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stopColor="#009fd8ff" stopOpacity={0.8} />
-      <stop offset="100%" stopColor="#00f078ff" stopOpacity={0.8} />
+      <stop offset="0%" stopColor="#d85a00ff" stopOpacity={0.8} />
+      <stop offset="33%" stopColor="#d8a600ff" stopOpacity={0.8} />
+      <stop offset="66%" stopColor="#009fd8ff" stopOpacity={0.8} />
+      <stop offset="100%" stopColor="#0032d8ff" stopOpacity={0.8} />
     </linearGradient>
   </defs>
 );
 
-export default WindDrawer;
+export default FeelsLikeDrawer;

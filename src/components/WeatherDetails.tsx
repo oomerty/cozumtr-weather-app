@@ -10,6 +10,7 @@ import UV from "./details/uv/UV";
 import Forecast from "./details/forecast/Forecast";
 import Humidity from "./details/humidity/Humidity";
 import Wind from "./details/wind/Wind";
+import FeelsLike from "./details/feelsLike/FeelsLike";
 
 interface WeatherDetailsProps {
   details: WeatherType;
@@ -20,9 +21,6 @@ function WeatherDetails({ details }: WeatherDetailsProps) {
 
   const timeEpoch = Date.parse(details?.location.localtime);
   const time = new Date(timeEpoch);
-
-  const currentTemp = details?.current.temp_c;
-  const feelsLikeTemp = details?.current.feelslike_c;
 
   const forecastArr = details?.forecast.forecastday[0].hour;
   const forecastFromNow = forecastArr?.slice(time.getHours());
@@ -105,38 +103,13 @@ function WeatherDetails({ details }: WeatherDetailsProps) {
         <Forecast details={details} forecastFromNow={forecastFromNow} />
 
         <Wind details={details} />
-        <FeelsLike feelsLikeTemp={feelsLikeTemp} currentTemp={currentTemp} />
+        <FeelsLike details={details} />
         <Humidity details={details} />
         <UV details={details} />
         <Precipitation precipitation={details?.current.precip_mm} />
         <Visibility visibility={details?.current.vis_km} />
       </Grid>
     </Paper>
-  );
-}
-
-function FeelsLike({
-  feelsLikeTemp,
-  currentTemp,
-}: {
-  feelsLikeTemp: number;
-  currentTemp: number;
-}) {
-  return (
-    <WeatherDetailCard title="Feels Like">
-      <Typography variant="h4" sx={{ fontWeight: "500" }}>
-        {feelsLikeTemp}°
-      </Typography>
-      <Typography variant="body1" sx={{ color: "text.secondary" }}>
-        It feels{" "}
-        {currentTemp > feelsLikeTemp
-          ? "cooler than"
-          : currentTemp < feelsLikeTemp
-          ? "warmer than"
-          : "almost same as"}{" "}
-        the actual temperature
-      </Typography>
-    </WeatherDetailCard>
   );
 }
 

@@ -23,12 +23,14 @@ export default interface WeatherType {
         maxtemp_c: number;
         mintemp_c: number;
         avgtemp_c: number;
+
         avghumidity: number;
         maxwind_kph: number;
       };
       hour: Array<{
         time: string;
         temp_c: number;
+        feelslike_c: number;
         humidity: number;
         uv: number;
         wind_kph: number;
