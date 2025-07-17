@@ -8,13 +8,14 @@ import {
 } from "@mui/material";
 import type { KeyboardEvent } from "react";
 
+const IP_URL = import.meta.env.VITE_IP_API_URL;
+
 interface SettingsMenuProps {
   menuOpen: boolean;
   handleClose: (e: Event | React.SyntheticEvent) => void;
   handleListKeyDown: (event: KeyboardEvent<Element>) => void;
   toggleTheme?: () => void;
-  toggleSound?: () => void;
-  soundEnabled?: boolean;
+  handleSearch: (city: string) => void;
   isDarkMode?: boolean;
 }
 
@@ -22,8 +23,24 @@ function SettingsMenu({
   menuOpen,
   handleListKeyDown,
   toggleTheme,
+  handleSearch,
   isDarkMode = false,
 }: SettingsMenuProps) {
+  async function handleGetLocation() {
+    try {
+      const res = await fetch(IP_URL);
+      const json = await res.json();
+      if (json && json.ip) {
+        handleSearch(json.ip);
+      } else {
+        handleSearch("Eskisehir");
+      }
+      return json;
+    } catch {
+      throw new Error("An error occured while gettin IP.");
+    }
+  }
+
   return (
     <Paper
       sx={{
@@ -54,11 +71,11 @@ function SettingsMenu({
           <ListItemText>{isDarkMode ? "Light Mode" : "Dark Mode"}</ListItemText>
         </MenuItem>
 
-        <MenuItem>
+        <MenuItem onClick={handleGetLocation}>
           <ListItemIcon>
             <LocationOn fontSize="small" />
           </ListItemIcon>
-          <ListItemText>Get Location Information</ListItemText>
+          <ListItemText>Get Current Location</ListItemText>
         </MenuItem>
       </MenuList>
     </Paper>

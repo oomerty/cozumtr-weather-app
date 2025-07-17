@@ -67,7 +67,7 @@ function NavBar({
           justifyContent: { xs: "center", md: "flex-end" },
         }}
       >
-        <SettingsButton />
+        <SettingsButton handleSearch={handleSearch} />
         <SearchBar
           text={
             details ? `${details?.location.name} & more` : "Search a location"
@@ -134,10 +134,6 @@ function NavbarLocation({
             fontWeight: 500,
             color: "text.primary",
             textAlign: "right",
-            // overflow: "hidden",
-            // textOverflow: "ellipsis",
-            // whiteSpace: "nowrap",
-            // width: "25%",
             animation: "animate 1s linear forwards",
             "@keyframes animate": {
               "0%": {
@@ -152,7 +148,6 @@ function NavbarLocation({
           }}
         >
           {loading || error || `${currentTemp}°`}
-          {/* {loading || error || `${currentTemp}° ${condition}`} */}
           {loading && "—.-°"}
         </Typography>
       )}

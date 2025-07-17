@@ -1,7 +1,7 @@
 const containerGlass =
   "linear-gradient(to right bottom, rgba(255, 255, 255, 0.1), rgba(230, 230, 230, 0.1))";
 const containerGlassBorder = "rgba(255, 255, 255, 0.2)";
-const bodyBackground = "linear-gradient(180deg, #60acfdff 30%, #95c5fcff 90%)";
+const bodyBackground = "linear-gradient(180deg, #74b3e3 30%, #4b93ebff 90%)";
 
 const lightTheme = {
   components: {

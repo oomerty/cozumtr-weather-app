@@ -36,7 +36,7 @@ function Weather() {
         const res = await fetch(IP_URL);
         const json = await res.json();
 
-        if (json.ip) {
+        if (json && json.ip) {
           handleSearch(json.ip);
         } else {
           handleSearch("Eskisehir");

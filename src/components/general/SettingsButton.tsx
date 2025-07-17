@@ -4,7 +4,11 @@ import React, { useState } from "react";
 import SettingsMenu from "./SettingsMenu";
 import { useThemeMode } from "../../contexts/useThemeMode";
 
-function SettingsButton() {
+interface SettingsButtonProps {
+  handleSearch: (city: string) => void;
+}
+
+function SettingsButton({ handleSearch }: SettingsButtonProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const anchorRef = React.useRef<HTMLButtonElement>(null);
   const { mode, setMode, setForceMode } = useThemeMode();
@@ -83,6 +87,7 @@ function SettingsButton() {
             handleClose={handleClose}
             handleListKeyDown={handleListKeyDown}
             toggleTheme={toggleTheme}
+            handleSearch={handleSearch}
             isDarkMode={isDarkMode}
           />
         </Popper>
