@@ -54,8 +54,7 @@ function Weather() {
     if (!forceMode && weather?.current) {
       let backgroundStyle = "";
 
-      const dayGradient =
-        "linear-gradient(180deg, #60acfdff 30%, #95c5fcff 90%)";
+      const dayGradient = "linear-gradient(180deg, #74b3e3 30%, #4b93ebff 90%)";
       const nightGradient = "linear-gradient(180deg, #00060f 30%, #10357a 90%)";
       const baseGradient = weather.current.is_day ? dayGradient : nightGradient;
       setMode(weather.current.is_day ? "day" : "night");
