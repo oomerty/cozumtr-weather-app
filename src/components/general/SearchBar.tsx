@@ -1,5 +1,10 @@
 import { useState, type ChangeEvent } from "react";
-import { FormControl, TextField, InputAdornment, IconButton } from "@mui/material";
+import {
+  FormControl,
+  TextField,
+  InputAdornment,
+  IconButton,
+} from "@mui/material";
 import { Search } from "@mui/icons-material";
 
 function SearchBar({
@@ -16,7 +21,7 @@ function SearchBar({
   }
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && search.trim()) {
+    if (e.key === "Enter" && search.trim()) {
       handleSearch(search);
       setSearch("");
     }
@@ -31,18 +36,18 @@ function SearchBar({
         size="small"
         value={search}
         onChange={handleSearchField}
-        onKeyPress={handleKeyPress}
-        sx={{ 
+        onKeyDown={handleKeyPress}
+        sx={{
           width: "100%",
-          '& .MuiOutlinedInput-root': {
-            borderRadius: '24px',
-            paddingRight: '8px',
-          }
+          "& .MuiOutlinedInput-root": {
+            borderRadius: "24px",
+            paddingRight: "8px",
+          },
         }}
         InputProps={{
           endAdornment: (
             <InputAdornment position="end">
-              <IconButton 
+              <IconButton
                 onClick={() => {
                   if (search.trim()) {
                     handleSearch(search);
@@ -51,10 +56,10 @@ function SearchBar({
                 }}
                 edge="end"
                 sx={{
-                  color: 'primary.main',
-                  '&:hover': {
-                    backgroundColor: 'rgba(0, 0, 0, 0.04)'
-                  }
+                  color: "primary.main",
+                  "&:hover": {
+                    backgroundColor: "rgba(0, 0, 0, 0.04)",
+                  },
                 }}
               >
                 <Search />

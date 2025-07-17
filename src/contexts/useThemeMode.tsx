@@ -5,7 +5,9 @@ type ThemeMode = "day" | "night";
 
 interface ThemeModeContextType {
   mode: ThemeMode;
+  forceMode: boolean;
   setMode: (mode: ThemeMode) => void;
+  setForceMode: (force: boolean) => void;
 }
 
 const ThemeContext = createContext<ThemeModeContextType | undefined>(undefined);
@@ -16,9 +18,10 @@ export const ThemeModeProvider = ({
   children: React.ReactNode;
 }) => {
   const [mode, setMode] = useState<ThemeMode>("day");
+  const [forceMode, setForceMode] = useState(false);
 
   return (
-    <ThemeContext.Provider value={{ mode, setMode }}>
+    <ThemeContext.Provider value={{ mode, forceMode, setMode, setForceMode }}>
       {children}
     </ThemeContext.Provider>
   );

@@ -13,7 +13,7 @@ import WeatherDetails from "../components/WeatherDetails";
 
 function Weather() {
   const { fetchWeather, weather, loading, error } = useWeather();
-  const { setMode } = useThemeMode();
+  const { forceMode, setMode } = useThemeMode();
 
   const heroRef = useRef<HTMLDivElement | null>(null);
   const [heroOffScreen, setHeroOffScreen] = useState(false);
@@ -33,7 +33,7 @@ function Weather() {
   }, [handleSearch]);
 
   useEffect(() => {
-    if (weather?.current) {
+    if (!forceMode && weather?.current) {
       let backgroundStyle = "";
 
       const dayGradient =
@@ -59,8 +59,6 @@ function Weather() {
 
       if (weatherOverlay) {
         backgroundStyle = `${baseGradient}, ${weatherOverlay}`;
-      } else {
-        backgroundStyle = baseGradient;
       }
 
       document.body.style.background = backgroundStyle;
@@ -70,7 +68,7 @@ function Weather() {
       document.body.style.backgroundBlendMode = "overlay";
       document.body.style.backgroundAttachment = "fixed";
     }
-  }, [weather, setMode]);
+  }, [weather, forceMode, setMode]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(

@@ -1,9 +1,20 @@
 const containerGlass =
   "linear-gradient(to right bottom, rgba(255, 255, 255, 0.1), rgba(230, 230, 230, 0.1))";
 const containerGlassBorder = "rgba(255, 255, 255, 0.2)";
+const bodyBackground = "linear-gradient(180deg, #60acfdff 30%, #95c5fcff 90%)";
 
 const lightTheme = {
   components: {
+    // CSS BASELINE
+    MuiCssBaseline: {
+      styleOverrides: {
+        body: {
+          background: bodyBackground,
+          backgroundAttachment: "fixed",
+          backgroundSize: "cover",
+        },
+      },
+    },
     // PAPER
     MuiPaper: {
       styleOverrides: {
@@ -25,16 +36,15 @@ const lightTheme = {
     MuiButton: {
       styleOverrides: {
         root: {
+          color: "#495057",
           borderRadius: "24px",
           backgroundColor: "transparent",
           backdropFilter: "blur(24px)",
-          fillOpacity: "50%",
-          border: "1px solid rgba(255, 255, 255, 0.2)",
+          border: `1px solid ${containerGlassBorder}`,
           boxShadow: "none",
-          backgroundImage:
-            "linear-gradient(to right bottom, rgba(25, 75, 255, 0.7), rgba(43, 89, 255, 0.7))",
+          backgroundImage: containerGlass,
           "&:hover": {
-            backgroundColor: "rgba(5, 58, 252, 0.7)",
+            backgroundColor: "rgba(230, 230, 230, 0.2)",
           },
         },
       },
@@ -102,6 +112,29 @@ const lightTheme = {
           },
         },
       },
+    },
+    // Menu
+    // MuiMenuList: {
+    //   styleOverrides: {
+    //     root: {
+    //       margin: 0,
+    //       borderRadius: 12,
+    //     },
+    //   },
+    // },
+    MuiMenuItem: {
+      styleOverrides: {
+        root: {
+          margin: 0,
+
+          borderRadius: 12,
+        },
+      },
+    },
+  },
+  palette: {
+    backgroundImage: {
+      default: bodyBackground,
     },
   },
 };

@@ -3,6 +3,7 @@ import type WeatherType from "../../types/WeatherType";
 import { Box, Grid, Typography } from "@mui/material";
 import { LocationOn } from "@mui/icons-material";
 import SearchBar from "./SearchBar";
+import SettingsButton from "./SettingsButton";
 
 interface NavBarProps {
   details: WeatherType;
@@ -62,9 +63,11 @@ function NavBar({
         sx={{
           width: { xs: "100%", md: "25%" },
           display: "flex",
+          gap: 1,
           justifyContent: { xs: "center", md: "flex-end" },
         }}
       >
+        <SettingsButton />
         <SearchBar
           text={
             details ? `${details?.location.name} & more` : "Search a location"
