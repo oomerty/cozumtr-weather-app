@@ -125,8 +125,6 @@ const lightTheme = {
     MuiMenuItem: {
       styleOverrides: {
         root: {
-          margin: 0,
-
           borderRadius: 12,
         },
       },

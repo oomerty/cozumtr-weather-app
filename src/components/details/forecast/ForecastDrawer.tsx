@@ -22,7 +22,11 @@ interface HumidityDrawerProps {
 }
 
 function HumidityDrawer({ details, open, onClose }: HumidityDrawerProps) {
-  const data: { temp: number; condition: string; time: number }[] = [];
+  const data: {
+    temp: number;
+    conditionIcon: string;
+    time: number;
+  }[] = [];
 
   const currTime = Number(
     details?.location.localtime.split(" ").at(1)?.split(":").at(0)
@@ -31,7 +35,7 @@ function HumidityDrawer({ details, open, onClose }: HumidityDrawerProps) {
   dailyForecast?.forEach((hourlyForecast) => {
     data.push({
       temp: hourlyForecast.temp_c,
-      condition: hourlyForecast.condition.text,
+      conditionIcon: hourlyForecast.condition.icon,
       time: Number(hourlyForecast.time.split(" ").at(1)?.split(":").at(0)) || 0,
     });
   });
@@ -96,7 +100,10 @@ function HumidityDrawer({ details, open, onClose }: HumidityDrawerProps) {
 
 interface CustomTooltipProps {
   active?: boolean;
-  payload?: Array<{ value: number; payload: { condition: string } }>;
+  payload?: Array<{
+    value: number;
+    payload: { conditionIcon: string };
+  }>;
   label?: string;
 }
 
@@ -106,7 +113,22 @@ const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
     <ChartTooltip
       isVisible={!!isVisible}
       label={label ? `${label}:00` : ""}
-      data={`${payload?.[0]?.value}° | ${payload?.[0]?.payload.condition}`}
+      data={
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            gap: 2,
+          }}
+        >
+          <img
+            src={`${payload?.[0]?.payload.conditionIcon}`}
+            style={{ width: "32px", aspectRatio: "1/1" }}
+          />
+          <Typography>{`${payload?.[0]?.value}°`}</Typography>
+        </Box>
+      }
     />
   );
 };

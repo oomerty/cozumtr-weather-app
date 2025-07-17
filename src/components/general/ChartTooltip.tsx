@@ -3,7 +3,7 @@ import { Box, Paper, Typography } from "@mui/material";
 interface ChartTooltipProps {
   isVisible: boolean;
   label: string;
-  data: string;
+  data: string | object;
 }
 
 function ChartTooltip({ isVisible, data, label }: ChartTooltipProps) {
@@ -21,10 +21,14 @@ function ChartTooltip({ isVisible, data, label }: ChartTooltipProps) {
               alignItems: "center",
               gap: 2,
               padding: 1,
+              paddingX: 2,
             }}
           >
             <Typography variant="subtitle2">{label}</Typography>
-            <Typography variant="body1">{data}</Typography>
+            {typeof data === "string" && (
+              <Typography variant="body1">{data}</Typography>
+            )}
+            {typeof data === "object" && <>{data}</>}
           </Paper>
         </Box>
       )}

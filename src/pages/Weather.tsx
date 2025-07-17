@@ -11,6 +11,8 @@ import NavBar from "../components/general/NavBar";
 import WeatherHero from "../components/WeatherHero";
 import WeatherDetails from "../components/WeatherDetails";
 
+const IP_URL = import.meta.env.VITE_IP_API_URL;
+
 function Weather() {
   const { fetchWeather, weather, loading, error } = useWeather();
   const { forceMode, setMode } = useThemeMode();
@@ -29,7 +31,23 @@ function Weather() {
   );
 
   useEffect(() => {
-    handleSearch("Eskisehir");
+    async function getIP() {
+      try {
+        const res = await fetch(IP_URL);
+        const json = await res.json();
+
+        if (json.ip) {
+          handleSearch(json.ip);
+        } else {
+          handleSearch("Eskisehir");
+        }
+        return json;
+      } catch {
+        throw new Error("An error occured while gettin IP.");
+      }
+    }
+
+    getIP();
   }, [handleSearch]);
 
   useEffect(() => {

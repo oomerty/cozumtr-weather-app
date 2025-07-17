@@ -123,7 +123,7 @@ function NavbarLocation({
           textAlign: "left",
         }}
       >
-        <LocationOn /> {loading || error || `${cityName}, ${countryName}`}{" "}
+        {<LocationOn />} {loading || error || `${cityName}, ${countryName}`}{" "}
         {loading && "—, —"}
       </Typography>
 

@@ -1,6 +1,6 @@
 import type WeatherType from "../types/WeatherType";
 
-import { LocationOn } from "@mui/icons-material";
+import { LocationOn, ArrowUpward, ArrowDownward } from "@mui/icons-material";
 import { Box, Typography } from "@mui/material";
 
 interface WeatherHeroType {
@@ -55,6 +55,17 @@ function WeatherHero({ details, loading, error, ref }: WeatherHeroType) {
         </Typography>
 
         <Typography
+          variant="body1"
+          sx={{
+            color: "text.secondary",
+            fontWeight: 600,
+            display: { xs: "none", md: "inline-block" },
+          }}
+        >
+          {loading || !!error ? "Condition" : condition}
+        </Typography>
+
+        <Typography
           variant="h2"
           className="hero-temp"
           sx={{
@@ -65,6 +76,7 @@ function WeatherHero({ details, loading, error, ref }: WeatherHeroType) {
           {loading || !!error || (currentTemp && `${currentTemp}°`)}{" "}
           {(loading || error) && "—.-°"}
         </Typography>
+
         <Box
           sx={{
             display: "flex",
@@ -75,16 +87,25 @@ function WeatherHero({ details, loading, error, ref }: WeatherHeroType) {
           }}
         >
           <Typography variant="h6">
-            H: {loading || !!error || `${highTemp}°`}
+            <ArrowUpward fontSize="inherit" />{" "}
+            {loading || !!error || `${highTemp}°`}
             {(loading || error) && "—.-°"}
           </Typography>
           <Typography variant="h6">
-            L: {loading || !!error || `${lowTemp}°`}
+            <ArrowDownward fontSize="inherit" />{" "}
+            {loading || !!error || `${lowTemp}°`}
             {(loading || error) && "—.-°"}
           </Typography>
         </Box>
 
-        <Typography variant="body1">
+        <Typography
+          variant="body1"
+          sx={{
+            color: "text.secondary",
+            fontWeight: 600,
+            display: { xs: "inline-block", md: "none" },
+          }}
+        >
           {loading || !!error ? "Condition" : condition}
         </Typography>
 
@@ -100,44 +121,6 @@ function WeatherHero({ details, loading, error, ref }: WeatherHeroType) {
             : "It is quite cold outsize, stay warm"}
         </Typography> */}
       </Box>
-
-      {/* <Box
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "center",
-          alignItems: "center",
-          flexWrap: "wrap",
-          gap: 1,
-        }}
-      >
-        <Chip
-          label="New York"
-          variant="filled"
-          onClick={() => handleSearch("New York")}
-        />
-        <Chip
-          label="London"
-          variant="filled"
-          onClick={() => handleSearch("London")}
-        />
-        <Chip
-          label="Istanbul"
-          variant="filled"
-          onClick={() => handleSearch("Istanbul")}
-        />
-        <Chip
-          label="Tokyo"
-          variant="filled"
-          onClick={() => handleSearch("Tokyo")}
-        />
-        <Chip
-          label="Beijing"
-          variant="filled"
-          onClick={() => handleSearch("Beijing")}
-        />
-        <WeatherSoundButton condition={condition} />
-      </Box> */}
     </Box>
   );
 }

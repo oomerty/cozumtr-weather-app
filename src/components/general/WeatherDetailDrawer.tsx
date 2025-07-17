@@ -20,6 +20,8 @@ function WeatherDetailDrawer({
       {title && (
         <Typography
           sx={{
+            position: "sticky",
+            top: 0,
             textTransform: "uppercase",
             color: { light: "#fff", dark: "#ccc" },
             paddingBottom: 2,

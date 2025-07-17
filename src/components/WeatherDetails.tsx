@@ -21,7 +21,7 @@ function WeatherDetails({ details, heroOffScreen }: WeatherDetailsProps) {
   const forecastArr = details?.forecast.forecastday[0].hour;
   const forecastFromNow = forecastArr?.slice(time.getHours());
 
-  if (forecastFromNow?.length < 5) {
+  if (forecastFromNow?.length < 6) {
     const forecastArrTomorrow = details?.forecast.forecastday[1].hour;
     Object.values(forecastArrTomorrow).forEach((element) => {
       forecastFromNow.push(element);

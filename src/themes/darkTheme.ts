@@ -131,6 +131,14 @@ const darkTheme = {
         },
       },
     },
+    // MENU
+    MuiMenuItem: {
+      styleOverrides: {
+        root: {
+          borderRadius: 12,
+        },
+      },
+    },
   },
   palette: {
     backgroundImage: {
