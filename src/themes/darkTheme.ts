@@ -1,6 +1,6 @@
 const containerGlass =
   "linear-gradient(to right bottom, rgba(0, 0, 0, 0.1), rgba(25, 25, 25, 0.1))";
-const containerGlassBorder = "rgba(0, 0, 0, 0.2)";
+const containerGlassBorder = "rgba(255, 255, 255, 0.2)";
 
 const darkTheme = {
   components: {

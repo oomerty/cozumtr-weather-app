@@ -11,9 +11,10 @@ import FeelsLike from "./details/feelsLike/FeelsLike";
 
 interface WeatherDetailsProps {
   details: WeatherType;
+  heroOffScreen: boolean;
 }
 
-function WeatherDetails({ details }: WeatherDetailsProps) {
+function WeatherDetails({ details, heroOffScreen }: WeatherDetailsProps) {
   const timeEpoch = Date.parse(details?.location.localtime);
   const time = new Date(timeEpoch);
 
@@ -32,10 +33,40 @@ function WeatherDetails({ details }: WeatherDetailsProps) {
       sx={{
         flexDirection: "column",
         height: "max-content",
-        // maxHeight: { sm: "100%", md: "100vh" },
         overflow: "auto",
         p: { xs: 2, md: 3 },
+        marginTop: { xs: 0, md: 4 },
+        marginX: { xs: 0, md: 12 },
         boxSizing: "border-box",
+        transition: "700ms",
+
+        "&::-webkit-scrollbar": {
+          width: "8px",
+          color: "red",
+          backgroundColor: "transparent",
+        },
+        "&::-webkit-scrollbar-thumb": {
+          backgroundColor: "rgba(255, 255, 255, 0.3)",
+          borderRadius: "32px",
+          "&:hover": {
+            backgroundColor: "rgba(255, 255, 255, 0.5)",
+          },
+        },
+        "&::-webkit-scrollbar-track": {
+          backgroundColor: "rgba(0, 0, 0, 0.1)",
+          borderRadius: "32px",
+          marginTop: "32px",
+          marginBottom: "16px",
+        },
+
+        ...(heroOffScreen && {
+          position: "sticky",
+          top: "72px",
+          height: { xs: "max-content", md: "calc(100vh - 96px)" },
+          marginTop: 0,
+          marginX: 0,
+          overflowY: { xs: "auto", md: "scroll" },
+        }),
       }}
       elevation={0}
     >
@@ -46,8 +77,6 @@ function WeatherDetails({ details }: WeatherDetailsProps) {
         <FeelsLike details={details} />
         <Humidity details={details} />
         <UV details={details} />
-        <Precipitation precipitation={details?.current.precip_mm} />
-        <Visibility visibility={details?.current.vis_km} />
         <Precipitation precipitation={details?.current.precip_mm} />
         <Visibility visibility={details?.current.vis_km} />
       </Grid>

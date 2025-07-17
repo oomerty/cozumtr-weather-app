@@ -4,7 +4,8 @@ import type WeatherType from "../types/WeatherType";
 import { useThemeMode } from "../contexts/useThemeMode";
 import { useWeather } from "../hooks/useWeather";
 
-import { Grid } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
+import MouseIcon from "@mui/icons-material/Mouse";
 
 import NavBar from "../components/general/NavBar";
 import WeatherHero from "../components/WeatherHero";
@@ -19,6 +20,7 @@ function Weather() {
 
   const handleSearch = useCallback(
     (city: string) => {
+      window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
       if (city.trim()) {
         fetchWeather(city);
       }
@@ -82,7 +84,7 @@ function Weather() {
   return (
     <Grid
       container
-      spacing={{ xs: 3, md: 4 }}
+      spacing={{ xs: 3, md: 10 }}
       margin={0}
       direction="row"
       justifyContent="center"
@@ -94,7 +96,12 @@ function Weather() {
       <Grid
         size={12}
         order={{ xs: 1, md: 0 }}
-        sx={{ position: "sticky", top: 0, zIndex: 1000 }}
+        sx={{
+          position: "sticky",
+          top: 0,
+          zIndex: 1000,
+          paddingTop: { xs: 2, md: 0 },
+        }}
       >
         <NavBar
           details={weather as WeatherType}
@@ -114,16 +121,26 @@ function Weather() {
         />
       </Grid>
 
-      <Grid
-        size={{ xs: 12, md: 12 }}
-        order={{ xs: 2, md: 2 }}
-        sx={{
-          position: "sticky",
-          top: "72px",
-          zIndex: 100,
-        }}
-      >
-        <WeatherDetails details={weather as WeatherType} />
+      <Grid size={{ xs: 12, md: 12 }} order={{ xs: 2, md: 2 }}>
+        <Typography
+          variant="body1"
+          sx={{
+            display: { xs: "none", md: "flex" },
+            justifyContent: "center",
+            alignItems: "center",
+            gap: 1,
+            transition: "300ms",
+            opacity: "100%",
+            color: "text.secondary",
+            ...(heroOffScreen && { display: "none", opacity: "0%" }),
+          }}
+        >
+          <MouseIcon fontSize="inherit" /> Scroll for details
+        </Typography>
+        <WeatherDetails
+          details={weather as WeatherType}
+          heroOffScreen={heroOffScreen}
+        />
       </Grid>
     </Grid>
   );

@@ -96,7 +96,7 @@ function NavbarLocation({
 }: NavbarLocationProps) {
   const cityName = details?.location.name;
   const countryName = details?.location.country;
-  const condition = details?.current.condition.text;
+  // const condition = details?.current.condition.text;
   const currentTemp = details?.current.temp_c;
 
   return (
@@ -117,6 +117,7 @@ function NavbarLocation({
           alignItems: "center",
           gap: 1,
           color: "text.secondary",
+          textAlign: "left",
         }}
       >
         <LocationOn /> {loading || error || `${cityName}, ${countryName}`}{" "}
@@ -129,6 +130,11 @@ function NavbarLocation({
           sx={{
             fontWeight: 500,
             color: "text.primary",
+            textAlign: "right",
+            // overflow: "hidden",
+            // textOverflow: "ellipsis",
+            // whiteSpace: "nowrap",
+            // width: "25%",
             animation: "animate 1s linear forwards",
             "@keyframes animate": {
               "0%": {
@@ -142,7 +148,8 @@ function NavbarLocation({
             },
           }}
         >
-          {loading || error || `${currentTemp}° ${condition}`}
+          {loading || error || `${currentTemp}°`}
+          {/* {loading || error || `${currentTemp}° ${condition}`} */}
           {loading && "—.-°"}
         </Typography>
       )}

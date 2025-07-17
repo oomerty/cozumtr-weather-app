@@ -1,5 +1,6 @@
 import { useState, type ChangeEvent } from "react";
-import { Button, FormControl, TextField } from "@mui/material";
+import { FormControl, TextField, InputAdornment, IconButton } from "@mui/material";
+import { Search } from "@mui/icons-material";
 
 function SearchBar({
   handleSearch,
@@ -14,8 +15,15 @@ function SearchBar({
     setSearch(e?.target.value);
   }
 
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && search.trim()) {
+      handleSearch(search);
+      setSearch("");
+    }
+  };
+
   return (
-    <FormControl sx={{ width: "100%", flexDirection: "row", gap: 1 }}>
+    <FormControl sx={{ width: "100%" }}>
       <TextField
         id="search"
         label={text ? text : "Search"}
@@ -23,28 +31,38 @@ function SearchBar({
         size="small"
         value={search}
         onChange={handleSearchField}
-        sx={{ width: "100%" }}
+        onKeyPress={handleKeyPress}
+        sx={{ 
+          width: "100%",
+          '& .MuiOutlinedInput-root': {
+            borderRadius: '24px',
+            paddingRight: '8px',
+          }
+        }}
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end">
+              <IconButton 
+                onClick={() => {
+                  if (search.trim()) {
+                    handleSearch(search);
+                    setSearch("");
+                  }
+                }}
+                edge="end"
+                sx={{
+                  color: 'primary.main',
+                  '&:hover': {
+                    backgroundColor: 'rgba(0, 0, 0, 0.04)'
+                  }
+                }}
+              >
+                <Search />
+              </IconButton>
+            </InputAdornment>
+          ),
+        }}
       />
-
-      <Button
-        variant="contained"
-        onClick={() => {
-          handleSearch(search);
-          setSearch("");
-        }}
-        sx={{
-          borderRadius: 6,
-          textTransform: "none",
-          fontWeight: "semibold",
-          padding: "0 24px",
-          boxShadow: "none",
-          ":hover": {
-            boxShadow: "none",
-          },
-        }}
-      >
-        Search
-      </Button>
     </FormControl>
   );
 }
