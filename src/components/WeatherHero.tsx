@@ -1,7 +1,8 @@
 import type WeatherType from "../types/WeatherType";
 
 import { LocationOn, ArrowUpward, ArrowDownward } from "@mui/icons-material";
-import { Box, Typography } from "@mui/material";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 
 interface WeatherHeroType {
   details: WeatherType;

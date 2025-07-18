@@ -6,7 +6,7 @@ import {
   InputAdornment,
   IconButton,
 } from "@mui/material";
-import { Search } from "@mui/icons-material";
+import Search from "@mui/icons-material/Search";
 // import { getCityList } from "../../util/locationList";
 
 // TEMP
@@ -132,6 +132,8 @@ const SearchBar = memo(function SearchBar({
           sx={{
             width: "100%",
             "& .MuiOutlinedInput-root": {
+              fontSize: "small",
+              height: "40px",
               borderRadius: 2,
               paddingRight: 2,
             },
@@ -145,8 +147,9 @@ const SearchBar = memo(function SearchBar({
                   <IconButton
                     onClick={() => handleSearchSubmit(search)}
                     edge="end"
+                    size="small"
                     sx={{
-                      color: "primary.main",
+                      color: "primary.secondary",
                       "&:hover": {
                         backgroundColor: "rgba(0, 0, 0, 0.04)",
                       },

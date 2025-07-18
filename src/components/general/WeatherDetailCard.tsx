@@ -4,6 +4,7 @@ import { Box, Card, Grid, Typography } from "@mui/material";
 
 interface WeatherDetailCardProps {
   children: React.ReactNode;
+  style?: object;
   title?: string;
   gridSize?: number;
   onClick?: () => void;
@@ -11,8 +12,9 @@ interface WeatherDetailCardProps {
 }
 
 const WeatherDetailCard = memo(function WeatherDetailCard({
-  title,
   children,
+  style,
+  title,
   gridSize,
   onClick,
   clickable = false,
@@ -36,6 +38,8 @@ const WeatherDetailCard = memo(function WeatherDetailCard({
 
           cursor: onClick || clickable ? "pointer" : "default",
           transition: "all 0.3s ease",
+
+          ...style,
 
           ...(onClick || clickable
             ? {

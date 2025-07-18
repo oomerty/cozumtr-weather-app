@@ -54,10 +54,9 @@ const lightTheme = {
         root: {
           "& .MuiOutlinedInput-root": {
             "& fieldset": {
-              color: "rgba(0, 0, 0, 0.6)",
+              color: "rgba(0, 0, 0, 0.7)",
               borderRadius: "24px",
               backgroundColor: "transparent",
-              backdropFilter: "blur(24px)",
               fillOpacity: "50%",
               border: "1px solid rgba(255, 255, 255, 0.2)",
               boxShadow: "none",

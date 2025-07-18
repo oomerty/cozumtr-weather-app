@@ -87,7 +87,7 @@ function WeatherDetails({ details, heroOffScreen }: WeatherDetailsProps) {
     >
       <Grid container spacing={2}>
         {rainyArr?.length > 0 && (
-          <WeatherDetailCard gridSize={12}>
+          <WeatherDetailCard style={{ p: 2 }} gridSize={12}>
             Rainy conditions{" "}
             {localTime < rainStreakStartTime ? "expected" : "started"} around{" "}
             {rainStreakStartTime}:00
