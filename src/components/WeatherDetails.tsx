@@ -8,6 +8,8 @@ import Forecast from "./details/forecast/Forecast";
 import Humidity from "./details/humidity/Humidity";
 import Wind from "./details/wind/Wind";
 import FeelsLike from "./details/feelsLike/FeelsLike";
+import conditionCheck from "../util/conditionCheck";
+import getTime from "../util/getTime";
 
 interface WeatherDetailsProps {
   details: WeatherType;
@@ -20,6 +22,19 @@ function WeatherDetails({ details, heroOffScreen }: WeatherDetailsProps) {
 
   const forecastArr = details?.forecast.forecastday[0].hour;
   const forecastFromNow = forecastArr?.slice(time.getHours());
+
+  const localTime = Number(getTime(details?.location.localtime, "hh"));
+
+  // Find rain conditions
+  let rainyArr: Array<WeatherType> = [];
+  let rainStreakStartTime: number = 0;
+  let rainStreakEndTime: number = 0;
+  if (details) {
+    const rainInfo = conditionCheck(details, "rain");
+    rainyArr = rainInfo.conditionArr as WeatherType[];
+    rainStreakStartTime = rainInfo.conditionStreakStartTime;
+    rainStreakEndTime = rainInfo.conditionStreakEndTime;
+  }
 
   if (forecastFromNow?.length < 6) {
     const forecastArrTomorrow = details?.forecast.forecastday[1].hour;
@@ -71,6 +86,17 @@ function WeatherDetails({ details, heroOffScreen }: WeatherDetailsProps) {
       elevation={0}
     >
       <Grid container spacing={2}>
+        {rainyArr?.length > 0 && (
+          <WeatherDetailCard gridSize={12}>
+            Rainy conditions{" "}
+            {localTime < rainStreakStartTime ? "expected" : "started"} around{" "}
+            {rainStreakStartTime}:00
+            {rainStreakStartTime !== rainStreakEndTime &&
+              `, will last until ${rainStreakEndTime}:00`}
+            .
+          </WeatherDetailCard>
+        )}
+
         <Forecast details={details} forecastFromNow={forecastFromNow} />
 
         <Wind details={details} />

@@ -1,15 +1,21 @@
-import { useEffect, useCallback, useState, useRef } from "react";
+import React, {
+  useEffect,
+  useCallback,
+  useState,
+  useRef,
+  Suspense,
+} from "react";
 
 import type WeatherType from "../types/WeatherType";
 import { useThemeMode } from "../contexts/useThemeMode";
 import { useWeather } from "../hooks/useWeather";
 
-import { Grid, Typography } from "@mui/material";
+import { Box, CircularProgress, Grid, Typography } from "@mui/material";
 import MouseIcon from "@mui/icons-material/Mouse";
 
 import NavBar from "../components/general/NavBar";
 import WeatherHero from "../components/WeatherHero";
-import WeatherDetails from "../components/WeatherDetails";
+const WeatherDetails = React.lazy(() => import("../components/WeatherDetails"));
 
 const IP_URL = import.meta.env.VITE_IP_API_URL;
 
@@ -152,10 +158,18 @@ function Weather() {
         >
           <MouseIcon fontSize="inherit" /> Scroll for details
         </Typography>
-        <WeatherDetails
-          details={weather as WeatherType}
-          heroOffScreen={heroOffScreen}
-        />
+        <Suspense
+          fallback={
+            <Box sx={{ display: "flex", justifyContent: "center", p: 4 }}>
+              <CircularProgress />
+            </Box>
+          }
+        >
+          <WeatherDetails
+            details={weather as WeatherType}
+            heroOffScreen={heroOffScreen}
+          />
+        </Suspense>
       </Grid>
     </Grid>
   );

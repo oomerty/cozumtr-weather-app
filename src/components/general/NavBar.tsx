@@ -4,6 +4,7 @@ import { Box, Grid, Typography } from "@mui/material";
 import { LocationOn } from "@mui/icons-material";
 import SearchBar from "./SearchBar";
 import SettingsButton from "./SettingsButton";
+import getTime from "../../util/getTime";
 
 interface NavBarProps {
   details: WeatherType;
@@ -86,7 +87,7 @@ function NavbarUpdateDate({ details }: { details: WeatherType }) {
       sx={{ display: { xs: "none", md: "inline-block" } }}
     >
       Updated at:{" "}
-      {details ? details?.location.localtime.split(" ").at(1) : "--:--"}
+      {details ? getTime(details?.location.localtime, "hh:mm") : "--:--"}
     </Typography>
   );
 }
@@ -99,7 +100,6 @@ function NavbarLocation({
 }: NavbarLocationProps) {
   const cityName = details?.location.name;
   const countryName = details?.location.country;
-  // const condition = details?.current.condition.text;
   const currentTemp = details?.current.temp_c;
 
   return (

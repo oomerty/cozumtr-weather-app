@@ -1,4 +1,13 @@
-import { DarkMode, LightMode, LocationOn } from "@mui/icons-material";
+import type { KeyboardEvent } from "react";
+
+import { useThemeMode } from "../../contexts/useThemeMode";
+
+import {
+  DarkMode,
+  LightMode,
+  LocationOn,
+  ColorLens,
+} from "@mui/icons-material";
 import {
   ListItemIcon,
   ListItemText,
@@ -6,7 +15,6 @@ import {
   MenuList,
   Paper,
 } from "@mui/material";
-import type { KeyboardEvent } from "react";
 
 const IP_URL = import.meta.env.VITE_IP_API_URL;
 
@@ -26,6 +34,8 @@ function SettingsMenu({
   handleSearch,
   isDarkMode = false,
 }: SettingsMenuProps) {
+  const { forceMode, setForceMode } = useThemeMode();
+
   async function handleGetLocation() {
     try {
       const res = await fetch(IP_URL);
@@ -41,12 +51,17 @@ function SettingsMenu({
     }
   }
 
+  const handleThemeForceMode = () => {
+    setForceMode(!forceMode);
+  };
+
   return (
     <Paper
       sx={{
         mt: 1,
         borderRadius: 6,
-        padding: 1,
+        px: 1,
+        py: 0.5,
         width: 320,
         maxWidth: "100%",
         overflow: "hidden",
@@ -60,6 +75,13 @@ function SettingsMenu({
         dense
         sx={{ py: 0.5 }}
       >
+        <MenuItem onClick={handleGetLocation}>
+          <ListItemIcon>
+            <LocationOn fontSize="small" />
+          </ListItemIcon>
+          <ListItemText>Get Current Location</ListItemText>
+        </MenuItem>
+
         <MenuItem onClick={toggleTheme}>
           <ListItemIcon>
             {isDarkMode ? (
@@ -71,11 +93,14 @@ function SettingsMenu({
           <ListItemText>{isDarkMode ? "Light Mode" : "Dark Mode"}</ListItemText>
         </MenuItem>
 
-        <MenuItem onClick={handleGetLocation}>
+        <MenuItem onClick={handleThemeForceMode}>
           <ListItemIcon>
-            <LocationOn fontSize="small" />
+            <ColorLens fontSize="small" />
           </ListItemIcon>
-          <ListItemText>Get Current Location</ListItemText>
+          <ListItemText>
+            {" "}
+            {forceMode ? "Use Dynamic Theming" : "Force Current Theme"}
+          </ListItemText>
         </MenuItem>
       </MenuList>
     </Paper>

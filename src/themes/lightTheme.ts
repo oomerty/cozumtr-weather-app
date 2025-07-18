@@ -54,10 +54,7 @@ const lightTheme = {
         root: {
           "& .MuiOutlinedInput-root": {
             "& fieldset": {
-              color: {
-                light: "rgba(0, 0, 0, 0.6)",
-                dark: "rgba(255, 255, 255, 0.6)",
-              },
+              color: "rgba(0, 0, 0, 0.6)",
               borderRadius: "24px",
               backgroundColor: "transparent",
               backdropFilter: "blur(24px)",
@@ -114,18 +111,18 @@ const lightTheme = {
       },
     },
     // Menu
-    // MuiMenuList: {
-    //   styleOverrides: {
-    //     root: {
-    //       margin: 0,
-    //       borderRadius: 12,
-    //     },
-    //   },
-    // },
+    MuiMenuList: {
+      styleOverrides: {
+        root: {
+          margin: 1,
+          borderRadius: 12,
+        },
+      },
+    },
     MuiMenuItem: {
       styleOverrides: {
         root: {
-          borderRadius: 12,
+          borderRadius: 14,
         },
       },
     },

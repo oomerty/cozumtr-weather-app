@@ -71,11 +71,10 @@ const darkTheme = {
       styleOverrides: {
         root: {
           "& .MuiOutlinedInput-root": {
+            input: {
+              color: "rgba(255, 255, 255, 0.6)",
+            },
             "& fieldset": {
-              color: {
-                light: "rgba(0, 0, 0, 0.6)",
-                dark: "rgba(255, 255, 255, 0.6)",
-              },
               borderRadius: "24px",
               backgroundColor: "transparent",
               backdropFilter: "blur(24px)",
@@ -132,10 +131,18 @@ const darkTheme = {
       },
     },
     // MENU
+    MuiMenuList: {
+      styleOverrides: {
+        root: {
+          margin: 1,
+          borderRadius: 12,
+        },
+      },
+    },
     MuiMenuItem: {
       styleOverrides: {
         root: {
-          borderRadius: 12,
+          borderRadius: 14,
         },
       },
     },

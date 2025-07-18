@@ -1,5 +1,6 @@
+import { memo } from "react";
+
 import { Box, Card, Grid, Typography } from "@mui/material";
-// import { AccessAlarm } from "@mui/icons-material";
 
 interface WeatherDetailCardProps {
   children: React.ReactNode;
@@ -9,7 +10,7 @@ interface WeatherDetailCardProps {
   clickable?: boolean;
 }
 
-function WeatherDetailCard({
+const WeatherDetailCard = memo(function WeatherDetailCard({
   title,
   children,
   gridSize,
@@ -66,6 +67,6 @@ function WeatherDetailCard({
       </Card>
     </Grid>
   );
-}
+});
 
 export default WeatherDetailCard;
