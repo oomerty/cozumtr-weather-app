@@ -54,7 +54,6 @@ const WeatherDetailCard = memo(function WeatherDetailCard({
         }}
       >
         <Box>
-          {/* <AccessAlarm /> */}
           {title && (
             <Typography
               sx={{
