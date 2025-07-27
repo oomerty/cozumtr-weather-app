@@ -1,15 +1,16 @@
-import type WeatherType from "../types/WeatherType";
+import type WeatherType from "../../types/WeatherType";
+
+import getTime from "../../util/getTime";
+import conditionCheck from "../../util/conditionCheck";
 
 import { Grid, Paper, Typography } from "@mui/material";
 
-import WeatherDetailCard from "./general/WeatherDetailCard";
-import UV from "./details/uv/UV";
-import Forecast from "./details/forecast/Forecast";
-import Humidity from "./details/humidity/Humidity";
-import Wind from "./details/wind/Wind";
-import FeelsLike from "./details/feelsLike/FeelsLike";
-import conditionCheck from "../util/conditionCheck";
-import getTime from "../util/getTime";
+import WeatherDetailCard from "../general/WeatherDetailCard";
+import Forecast from "./forecast/Forecast";
+import Wind from "./wind/Wind";
+import FeelsLike from "./feelsLike/FeelsLike";
+import Humidity from "./humidity/Humidity";
+import UV from "./uv/UV";
 
 interface WeatherDetailsProps {
   details: WeatherType;

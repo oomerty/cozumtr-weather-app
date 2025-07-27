@@ -1,4 +1,4 @@
-import type WeatherType from "../types/WeatherType";
+import type WeatherType from "../../types/WeatherType";
 
 import { LocationOn, ArrowUpward, ArrowDownward } from "@mui/icons-material";
 import Box from "@mui/material/Box";

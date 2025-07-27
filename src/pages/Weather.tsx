@@ -14,10 +14,11 @@ import { Box, CircularProgress, Grid, Typography } from "@mui/material";
 import MouseIcon from "@mui/icons-material/Mouse";
 
 import NavBar from "../components/general/NavBar";
-import WeatherHero from "../components/WeatherHero";
-const WeatherDetails = React.lazy(() => import("../components/WeatherDetails"));
-
-const IP_URL = import.meta.env.VITE_IP_API_URL;
+import WeatherHero from "../components/general/WeatherHero";
+import getLocation from "../util/getLocation";
+const WeatherDetails = React.lazy(
+  () => import("../components/details/WeatherDetails")
+);
 
 function Weather() {
   const { fetchWeather, weather, loading, error } = useWeather();
@@ -39,15 +40,14 @@ function Weather() {
   useEffect(() => {
     async function getIP() {
       try {
-        const res = await fetch(IP_URL);
-        const json = await res.json();
+        const position = await getLocation();
 
-        if (json && json.ip) {
-          handleSearch(json.ip);
+        if (position && position) {
+          handleSearch(`${position.latitude}, ${position.longitude}`);
         } else {
           handleSearch("Eskisehir");
         }
-        return json;
+        return null;
       } catch {
         throw new Error("An error occured while gettin IP.");
       }

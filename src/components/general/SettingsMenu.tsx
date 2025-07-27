@@ -15,8 +15,7 @@ import {
   MenuList,
   Paper,
 } from "@mui/material";
-
-const IP_URL = import.meta.env.VITE_IP_API_URL;
+import getLocation from "../../util/getLocation";
 
 interface SettingsMenuProps {
   menuOpen: boolean;
@@ -38,14 +37,14 @@ function SettingsMenu({
 
   async function handleGetLocation() {
     try {
-      const res = await fetch(IP_URL);
-      const json = await res.json();
-      if (json && json.ip) {
-        handleSearch(json.ip);
+      const position = await getLocation();
+
+      if (position && position) {
+        handleSearch(`${position.latitude}, ${position.longitude}`);
       } else {
         handleSearch("Eskisehir");
       }
-      return json;
+      return null;
     } catch {
       throw new Error("An error occured while gettin IP.");
     }
